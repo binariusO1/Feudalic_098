@@ -1,0 +1,27 @@
+; 	dummy file to prevent the game from loading vanilla one
+;		this file is useful only to use the advisor to launch custom script, not needed in the SSHIP as of 2021 --- Belovese
+
+;------------------------------------------
+AdviceThread forced_diplomacy_help_clicked_thread
+    GameArea Campaign
+
+    Item forced_diplomacy_help_clicked_Text_01
+        Uninhibitable
+        Verbosity  0 
+        Priority  0 
+        Threshold  1 
+        MaxRepeats  0 
+        RepeatInterval  1 
+        Attitude Normal
+        Presentation Default
+        Title forced_diplomacy_help_clicked_Text_01_Title
+        Script scripts/show_me/ForcedDiplomacy.txt
+        Text forced_diplomacy_help_clicked_Text_01_Text1
+
+;------------------------------------------
+Trigger forced_diplomacy_help_clicked_trigger
+    WhenToTest ScrollAdviceRequested
+
+    Condition ScrollAdviceRequested diplomacy_scroll
+ 
+    AdviceThread forced_diplomacy_help_clicked_thread  1

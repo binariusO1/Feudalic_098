@@ -1,0 +1,25 @@
+script
+
+;close advisor
+select_ui_element advisor_dismiss_button
+simulate_mouse_click lclick_up
+while I_AdvisorVisible
+end_while
+
+suspend_unscripted_advice true
+declare_show_me
+
+;do nothing if diplomacy scroll not open. In case advisor still showing after scroll closed and player then clicks showme.
+if I_ScrollOpen diplomacy_scroll
+
+	console_command force_diplomacy accept
+
+	;wait until scroll is closed
+	while I_ScrollOpen diplomacy_scroll
+	end_while
+
+	console_command force_diplomacy off
+	
+end_if
+
+end_script
