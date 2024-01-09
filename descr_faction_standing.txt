@@ -1,4 +1,4 @@
-; faction standing parameters
+; FACTION STANDING PARAMETERS V. 08-16-2022
 ; SSHIP v1.0.0. - modified by Lifthrasir April 2019
 ; ===========================
 ; Lusted Base File edited by Quark
@@ -9,7 +9,7 @@
 ; Updates for SSHIP by MWY 28.02.2014
 ; initialisation parameters
 ; SSHIP v0.9.6 edited by VineFynn July 2019
-; SSHIP v0.9.8 edited by Macaras Jan 2022
+; SSHIP v0.9.8 edited by Macaras
 
 ;net result on Orthodox vs Islamic destroying cathedral and rebuilding such is -0.006
 ;have to make sure that transgressions balance out new bonuses
@@ -30,8 +30,6 @@
 ; ....
 ;##########         HOTSPOTS of CONFLICTS
 ;##########         SPHERES OF INFLUENCE: taking certain settlements as certain factions hurts reputation and relations less
-; ....
-;##########         IMPROVE RELATIONS
 
 min_faction_standing	-1.0
 max_faction_standing	1.0
@@ -75,6 +73,8 @@ relations_worsened_thresholds
 ; income [divisor] [value]			--> for every 'divisor' unit of the event factions income, add 'value' to the affected faction standings
 ; normalise [target_faction_standing] [divisor]	--> for each affected faction standing, add (target_faction_standing - faction_standing)/divisor
 ; per_unit [value]				--> for each unit in the events army, add 'value' to the affected faction standings
+; For all the factions:	
+; FactionStanding exclude_factions { } -1.0
 
 
 ;######################################################################### 
@@ -110,7 +110,7 @@ Trigger Update_AI
     Condition not FactionIsLocal
 		and not FactionType slave
 
-    FactionStanding global normalise 0.6 30
+    FactionStanding global normalise 0.8 60
 
 ;------------------------------------------
 Trigger Update_AI_catholic
@@ -171,9 +171,10 @@ Trigger 0094_Update_Hard_Difficulty
     Condition CampaignDifficulty = hard
 		and not FactionType slave
 		and FactionIsLocal
-    ;was ---FactionStanding exclude_factions { slave } normalise -0.1 30 --- macaras
-	FactionStanding exclude_factions { slave } normalise -0.1 60
-    FactionStanding global normalise 0.5 80 
+    ;was ---FactionStanding exclude_factions { slave } normalise -0.1 30 
+	;    FactionStanding global normalise 0.5 80
+	FactionStanding exclude_factions { slave } normalise 0.0 90
+ 
 
 ;------------------------------------------
 Trigger 0095_Update_Very_Hard_Difficulty
@@ -182,9 +183,11 @@ Trigger 0095_Update_Very_Hard_Difficulty
     Condition CampaignDifficulty = very_hard
 		and FactionIsLocal
 		and not FactionType slave
-	;was ---FactionStanding exclude_factions { slave } normalise -0.2 30 --- macaras
-    FactionStanding exclude_factions { slave } normalise -0.2 80
-    FactionStanding global normalise 0.4 80 
+	;was: ---FactionStanding exclude_factions { slave } normalise -0.2 30 
+	;    FactionStanding global normalise 0.4 80
+	FactionStanding global normalise -0.1 100
+    FactionStanding exclude_factions { slave } normalise -0.1 90
+ 
 
 
 	
@@ -207,7 +210,8 @@ Trigger Player_Aggressivity_Warmonger
 	
 	Condition I_EventCounter player_aggressivity > 8
 	and I_EventCounter player_aggressivity < 12
-	FactionStanding exclude_factions { slave } normalise -1.0 50
+	and I_EventCounter is_the_player == 1
+	FactionStanding exclude_factions { slave } normalise -1.0 100
 	FactionStanding global normalise -1.0 60
 
 ;------------------------------------------
@@ -216,7 +220,9 @@ Trigger Player_Aggressivity_Warmonger12
 	
 	Condition I_EventCounter player_aggressivity > 11
 	and I_EventCounter player_aggressivity < 24
-	FactionStanding exclude_factions { slave } normalise -1.0 30
+	and I_EventCounter is_the_player == 1
+	
+	FactionStanding exclude_factions { slave } normalise -1.0 70
 	FactionStanding global normalise -1.0 40
 	
 ;------------------------------------------
@@ -224,8 +230,8 @@ Trigger Player_Aggressivity_Warmonger24
 	WhenToTest FactionTurnEnd
 	
 	Condition I_EventCounter player_aggressivity > 23
-	
-	FactionStanding exclude_factions { slave } normalise -1.0 20
+		and I_EventCounter is_the_player == 1
+	FactionStanding exclude_factions { slave } normalise -1.0 50
 	FactionStanding global normalise -1.0 20
 ;######################################################################### 
 ;##########         FACTION RELATIONS         ############################
@@ -1917,32 +1923,33 @@ Trigger 0103_occupy_settlement_increase_papal
     WhenToTest OccupySettlement
 
     Condition TargetFactionReligion catholic
-		and not TargetFactionExcommunicated
+		and TargetFactionExcommunicated
     
     FactionStanding factions { papal_states } 0.05
+	
 ;================== GENERAL ====================
 ;------------------------------------------
-Trigger 0049_T_Attacking_Crusading_General
-    WhenToTest Transgression
-
-    Condition TransgressionName = TC_ATTACKING_CRUSADING_GENERAL
-
-    FactionStanding target_religion normalise -1.0 20
+;There are specific triggers for the jihad and crusade
+;Trigger 0049_T_Attacking_Crusading_General
+;    WhenToTest Transgression
+;
+;    Condition TransgressionName = TC_ATTACKING_CRUSADING_GENERAL
+;    FactionStanding target_religion -0.1 
 
 ;------------------------------------------
 ;----No Forts in SSHIP---------------------
-
-Trigger 0050_T_Invaded_Fort
-    WhenToTest Transgression
-
-    Condition TransgressionName = TC_INVADED_FORT
-	   and not TargetFactionType slave
-     and not TargetFactionType mongols
-
-    FactionStanding target_faction normalise -1.0 50
-    FactionStanding target_allies normalise -1.0 100
-    FactionStanding target_enemies normalise 1.0 100
-
+;
+;Trigger 0050_T_Invaded_Fort
+;   WhenToTest Transgression
+;
+;    Condition TransgressionName = TC_INVADED_FORT
+;	   and not TargetFactionType slave
+;     and not TargetFactionType mongols
+;
+;    FactionStanding target_faction normalise -1.0 50
+;    FactionStanding target_allies normalise -1.0 100
+;    FactionStanding target_enemies normalise 1.0 100
+;
 ;------------------------------------------
 Trigger 0051_T_Stole_Back_Settlement
     WhenToTest Transgression
@@ -2166,8 +2173,8 @@ Trigger 0055c_T_Invasion_Crusade
 	and not TargetFactionReligion orthodox
 	and not IsCrusadeTargetFaction
 
-    FactionStanding target_faction normalise -1.0 50
-    FactionStanding target_religion normalise -1.0 200
+    FactionStanding target_faction normalise -0.5 100
+    FactionStanding target_religion normalise -0.5 200
 
 ;------------------------------------------
 Trigger 0055d_T_Invasion_Jihad
@@ -2178,8 +2185,8 @@ Trigger 0055d_T_Invasion_Jihad
 	and not TargetFactionReligion islam
 	and not IsCrusadeTargetFaction
 
-    FactionStanding target_faction normalise -1.0 50
-    FactionStanding target_religion normalise -1.0 200
+    FactionStanding target_faction normalise -0.5 100
+    FactionStanding target_religion normalise -0.5 200
 
 ;------------------------------------------
 ;When allience cancelled by diplomacy 
@@ -2200,7 +2207,7 @@ Trigger 0057_T_Broke_Treaty_terms
 
     Condition TransgressionName = TC_BROKE_TREATY_TERMS
 
-    FactionStanding global -0.1
+    FactionStanding global -0.01
     FactionStanding target_faction normalise -1.0 15
 	FactionStanding target_allies normalise -1.0 50
 
@@ -2233,10 +2240,9 @@ Trigger 0060_T_Declared_War_AI_NotAI
     and TargetFactionIsLocal
     and not FactionType papal_states
 
-    FactionStanding target_faction normalise -1.0 20
-    FactionStanding target_allies normalise -1.0 40
-    FactionStanding target_enemies normalise 1.0 75
-    FactionStanding exclude_factions { slave } normalise -0.4 50
+    FactionStanding target_faction -0.4 
+    FactionStanding target_allies -0.1
+    FactionStanding target_enemies 0.1
 
 ;------------------------------------------
 Trigger 0060_T_Declared_War_AI_AI_Simulate_Peace
@@ -2249,8 +2255,8 @@ Trigger 0060_T_Declared_War_AI_AI_Simulate_Peace
 
     FactionStanding global -0.04
     FactionStanding target_faction -0.4
-    FactionStanding target_allies normalise -1.0 40
-    FactionStanding target_enemies normalise 1.0 75
+    FactionStanding target_allies normalise -1.0 10
+    FactionStanding target_enemies normalise 1.0 10
     FactionStanding exclude_factions { slave } normalise -0.4 50
     
 ;------------------------------------------
@@ -2270,7 +2276,7 @@ Trigger 0084b_Update_Enemies_AI_Simulate_Peace
        
 ;------------------------------------------
 ; Triggers when declaring war and human is involved- bug 
-; thats why aggressor script
+; thats why aggressor script, only relations suffer, no rep
 
 Trigger 0060_T_Declared_War_Human
     WhenToTest FactionWarDeclared 
@@ -2314,11 +2320,10 @@ Trigger 0061_T_Major_Assassination_Attempt_Human
     Condition TransgressionName = TC_MAJOR_ASSASSINATION_ATTEMPT
     and FactionIsLocal
 
-    FactionStanding global -0.015
-    FactionStanding target_faction normalise -1.0 30
-    FactionStanding target_allies normalise -1.0 100
-    FactionStanding target_enemies normalise 1.0 50
-    FactionStanding exclude_factions { slave } normalise -0.4 50
+    FactionStanding global -0.0025
+    FactionStanding target_faction normalise -1.0 3
+    FactionStanding target_allies normalise -1.0 8
+    FactionStanding target_enemies normalise 1.0 20
     
 ;------------------------------------------
 Trigger 0061_T_Major_Assassination_Attempt_AI
@@ -2329,7 +2334,7 @@ Trigger 0061_T_Major_Assassination_Attempt_AI
 
     FactionStanding global -0.0025
     FactionStanding target_faction normalise -1.0 30
-    FactionStanding target_allies normalise -1.0 100
+    FactionStanding target_allies normalise -1.0 50
     FactionStanding target_enemies normalise 1.0 50
     FactionStanding exclude_factions { slave } normalise -0.4 50
 ;------------------------------------------
@@ -2341,9 +2346,8 @@ Trigger 0062_T_Minor_Assassination_Attempt_Human
      and not TargetFactionType mongols
      and FactionIsLocal
 
-    FactionStanding global -0.005
-    FactionStanding target_faction normalise -1.0 100
-    FactionStanding target_allies normalise -1.0 200
+    FactionStanding target_faction normalise -1.0 8
+    FactionStanding target_allies normalise -1.0 20
 ;------------------------------------------
 Trigger 0062_T_Minor_Assassination_Attempt_AI
     WhenToTest Transgression
@@ -2353,17 +2357,17 @@ Trigger 0062_T_Minor_Assassination_Attempt_AI
      and not TargetFactionType mongols
      and not FactionIsLocal
 
-    FactionStanding target_faction normalise -1.0 100
-    FactionStanding target_allies normalise -1.0 200
+    FactionStanding target_faction normalise -1.0 30
+    FactionStanding target_allies normalise -1.0 50
 ;------------------------------------------
 Trigger 0063_T_Sabotage
     WhenToTest Transgression
 
     Condition TransgressionName = TC_SABOTAGE
 
-    FactionStanding global -0.005
-    FactionStanding target_faction normalise -1.0 100
-    FactionStanding target_allies normalise -1.0 250
+    FactionStanding global -0.05
+    FactionStanding target_faction normalise -0.7 10
+    FactionStanding target_allies normalise -0.7 25
 
 ;------------------------------------------
 Trigger 0064_T_Bribed_Away_Army
@@ -2416,18 +2420,17 @@ Trigger 0068_T_Battle_Engagement
 
 ;------------------------------------------
 ;-- Problem that this one doesn't recognize who started the war, so its only for ai
-Trigger 0069_T_Instigate_Siege
-    WhenToTest Transgression
-
-    Condition TransgressionName = TC_INSTIGATE_SIEGE
-     and not TargetFactionType slave
-     and not TargetFactionType mongols
-	 and not FactionIsLocal
+;Trigger 0069_T_Instigate_Siege
+;    WhenToTest Transgression
+;    Condition TransgressionName = TC_INSTIGATE_SIEGE
+;     and not TargetFactionType slave
+;    and not TargetFactionType mongols
+;	 and not FactionIsLocal
 	 
-	FactionStanding global -0.05
-    FactionStanding target_faction normalise -1.0 100
-    FactionStanding target_allies normalise -1.0 200
-    FactionStanding exclude_factions { slave } normalise -0.4 100
+;	FactionStanding global -0.05
+;    FactionStanding target_faction normalise -1.0 100
+;    FactionStanding target_allies normalise -1.0 200
+;    FactionStanding exclude_factions { slave } normalise -0.4 100
 
 ;------------------------------------------
 Trigger 0070_T_Spying
@@ -2457,7 +2460,6 @@ Trigger 0072_T_Undeclared_Attack
     Condition TransgressionName = TC_UNDECLARED_ATTACK
 		and not FactionType slave
 
-	FactionStanding global -0.005
     FactionStanding target_faction normalise -1.0 20
     FactionStanding target_allies normalise -0.8 100
 
@@ -2509,10 +2511,9 @@ Trigger 0078b_DT_Break_Alliance_Neutral
 
 ;------------------------------------------
 ;When attacking an ally 
-;it affects only the aggressor -macaras
+;it affects only the aggressor 
 Trigger 0078c_DT_Break_Alliance_War
     WhenToTest Transgression
-
     Condition TransgressionName = TC_BROKE_ALLIANCE
         and DiplomaticStanceFactions = AtWar
 	;it was -0.15 before 
@@ -2532,22 +2533,23 @@ Trigger 0078c_DT_Break_Alliance_War
 Trigger 0083b_Update_Allies
     WhenToTest FactionTurnStart
 	Condition not FactionType slave
-    FactionStanding allies normalise 0.25 25
+    FactionStanding allies normalise 1.0 60
 
-; Make enemy factions like us a bit less
+; It is necessary to normalize so peace is possible
+; The idea is that when the war starts - standing immediately goes down, but normalize with time
 ;------------------------------------------
 Trigger 0084b_Update_Enemies
     WhenToTest FactionTurnStart
     Condition not FactionType slave
-    FactionStanding enemies normalise -0.8 50
+    FactionStanding enemies normalise 0.0 60
 
-; Make enemy factions like us a bit less
+; Make enemy factions friends like us a bit less
 ;------------------------------------------
 Trigger 0083c_Update_Allies_Allies
     WhenToTest UpdateAttitude
     Condition not FactionType slave
 		and DiplomaticStanceFactions = Allied
-    FactionStanding target_allies normalise 0.2 50
+    FactionStanding target_allies normalise -0.2 50
 
 
 ; Make enemies of our allies like us a bit less
@@ -2565,7 +2567,7 @@ Trigger 0083d_Update_Enemies_Allies
     WhenToTest UpdateAttitude
     Condition not FactionType slave
 		and DiplomaticStanceFactions = AtWar
-    FactionStanding target_allies normalise -0.8 200
+    FactionStanding target_allies normalise -0.8 80
 
 
 ; Make enemies of our enemies like us a bit more
@@ -2602,7 +2604,7 @@ Trigger 0086_Update_Tall_Poppy1
     Condition FactionHasRank
         and FactionScorePercent overall > 80
         and FactionScoreRank overall <= 1
-    FactionStanding exclude_factions { slave } normalise -0.5 75
+    FactionStanding exclude_factions { slave } normalise -0.5 40
 
 ;------------------------------------------
 Trigger 0087_Update_Tall_Poppy2
@@ -2611,7 +2613,7 @@ Trigger 0087_Update_Tall_Poppy2
     Condition FactionHasRank
         and FactionScorePercent overall > 70
         and FactionScoreRank overall <= 3
-    FactionStanding exclude_factions { slave } normalise -0.5 100
+    FactionStanding exclude_factions { slave } normalise -0.5 60
 
 ;------------------------------------------
 ;In the beggining of campaign, only Byz, Egypt, Turks, Moors and HRE qualifies here
@@ -2620,35 +2622,38 @@ Trigger 0088_Update_Tall_Poppy3
     Condition FactionHasRank
         and FactionScorePercent overall > 50
         and FactionScoreRank overall <= 5
-    FactionStanding exclude_factions { slave } normalise -0.5 125
+    FactionStanding exclude_factions { slave } normalise -0.5 80
 ;------------------------------------------
 ;Standing rapidly decrease when human becomes strong
-;Gets to 67% strongest and in first 5 factions
-;Reputation mixed and above prevents 
+;Gets to 50% strongest and in first 5 factions
+;Reputation reliable and above prevents 
 
 Trigger 0088_Update_Tall_Poppy4
     WhenToTest FactionTurnStart
     Condition FactionHasRank
-		and FactionScorePercent overall > 67
+		and FactionScorePercent overall > 50
         and FactionScoreRank overall <= 5
 		and FactionIsLocal
-		and GlobalStanding < 0.0
+		and CampaignDifficulty = very_hard
+		and I_TurnNumber > 10
+		and GlobalStanding < 0.6
 		
-    FactionStanding exclude_factions { slave, papal_states } normalise -1.0 15
+    FactionStanding exclude_factions { slave, papal_states } normalise -1.0 10
 	
 ;------------------------------------------
 ;Standing rapidly decrease when human becomes very strong
-;Gets to 80% of the strongest and in first 3 factions
+;Gets to 67% of the strongest and in first 3 factions
 ;Has to have really good reputation (above very reliable) not to be seen as the worst threat
 
 Trigger 0088_Update_Tall_Poppy5
     WhenToTest FactionTurnStart
     Condition FactionHasRank
-        and FactionScorePercent overall > 80
+		and CampaignDifficulty = very_hard
+        and FactionScorePercent overall > 67
         and FactionScoreRank overall <= 3
 		and FactionIsLocal
-		and GlobalStanding < 0.5
-		
+		and I_TurnNumber > 10
+		and GlobalStanding < 0.8
     FactionStanding exclude_factions { slave, papal_states } normalise -1.0 10
 	
 	
@@ -2661,7 +2666,8 @@ Trigger 0089_Update_Band_Together1
         and FactionScorePercent overall < 30
         and FactionScoreRank overall > 10
 		and not FactionIsLocal
-    FactionStanding exclude_factions { slave } normalise 0.0 125
+		and GlobalStanding > 0.0
+    FactionStanding exclude_factions { slave } normalise 0.8 125
 
 ;------------------------------------------
 Trigger 0090_Update_Band_Together2
@@ -2670,7 +2676,7 @@ Trigger 0090_Update_Band_Together2
         and FactionScorePercent overall < 20
         and FactionScoreRank overall > 15
 		and not FactionIsLocal
-    FactionStanding exclude_factions { slave } normalise 0.0 100
+    FactionStanding exclude_factions { slave } normalise 0.8 100
 
 ;------------------------------------------
 Trigger 0090_Update_Band_Together2a
@@ -2679,8 +2685,8 @@ Trigger 0090_Update_Band_Together2a
         and FactionScorePercent overall < 20
         and FactionScoreRank overall > 15
 		and not FactionIsLocal
-		and GlobalStanding < 0.1
-	FactionStanding global normalise 0.1 100
+		and GlobalStanding > 0.1
+	FactionStanding global normalise 0.8 50
 
 ;------------------------------------------
 Trigger 0091_Update_BandTogether3
@@ -2689,7 +2695,7 @@ Trigger 0091_Update_BandTogether3
         and FactionScorePercent overall < 10
         and FactionScoreRank overall > 20
 		and not FactionIsLocal
-    FactionStanding exclude_factions { slave } normalise 0.0 75
+    FactionStanding exclude_factions { slave } normalise 0.8 70
 	
 ;------------------------------------------
 Trigger 0091_Update_BandTogether3a
@@ -2698,8 +2704,8 @@ Trigger 0091_Update_BandTogether3a
         and FactionScorePercent overall < 10
         and FactionScoreRank overall > 20
 		and not FactionIsLocal
-		and GlobalStanding < 0.2
-    FactionStanding global normalise 0.2 100
+		and GlobalStanding > 0.4
+    FactionStanding global normalise 0.8 50
 
 ;------------------------------------------
 ;Having many allies increases significantly the reputation 
@@ -2748,6 +2754,8 @@ Trigger Decrease_Global_Aggvenice
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggsicily
     WhenToTest Transgression
@@ -2766,6 +2774,8 @@ Trigger Decrease_Global_Aggsicily
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8   
 ;------------------------------------------------
 Trigger Decrease_Global_Aggabbasid
     WhenToTest Transgression
@@ -2784,6 +2794,8 @@ Trigger Decrease_Global_Aggabbasid
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggdenmark
     WhenToTest Transgression
@@ -2802,6 +2814,8 @@ Trigger Decrease_Global_Aggdenmark
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8   
 ;------------------------------------------------
 Trigger Decrease_Global_Aggegypt
     WhenToTest Transgression
@@ -2820,6 +2834,8 @@ Trigger Decrease_Global_Aggegypt
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggscotland
     WhenToTest Transgression
@@ -2838,6 +2854,8 @@ Trigger Decrease_Global_Aggscotland
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggcumans
     WhenToTest Transgression
@@ -2856,6 +2874,8 @@ Trigger Decrease_Global_Aggcumans
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggturks
     WhenToTest Transgression
@@ -2874,6 +2894,8 @@ Trigger Decrease_Global_Aggturks
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggfrance
     WhenToTest Transgression
@@ -2892,6 +2914,8 @@ Trigger Decrease_Global_Aggfrance
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Agghre
     WhenToTest Transgression
@@ -2910,6 +2934,8 @@ Trigger Decrease_Global_Agghre
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggengland
     WhenToTest Transgression
@@ -2928,6 +2954,8 @@ Trigger Decrease_Global_Aggengland
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggportugal
     WhenToTest Transgression
@@ -2946,6 +2974,8 @@ Trigger Decrease_Global_Aggportugal
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggpoland
     WhenToTest Transgression
@@ -2964,6 +2994,8 @@ Trigger Decrease_Global_Aggpoland
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggbyzantium
     WhenToTest Transgression
@@ -2982,6 +3014,8 @@ Trigger Decrease_Global_Aggbyzantium
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggmoors
     WhenToTest Transgression
@@ -3000,6 +3034,8 @@ Trigger Decrease_Global_Aggmoors
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggrussia
     WhenToTest Transgression
@@ -3018,6 +3054,8 @@ Trigger Decrease_Global_Aggrussia
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggspain
     WhenToTest Transgression
@@ -3036,6 +3074,8 @@ Trigger Decrease_Global_Aggspain
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Agghungary
     WhenToTest Transgression
@@ -3054,6 +3094,8 @@ Trigger Decrease_Global_Agghungary
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggaragon
     WhenToTest Transgression
@@ -3072,6 +3114,8 @@ Trigger Decrease_Global_Aggaragon
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Agglithuania
     WhenToTest Transgression
@@ -3090,6 +3134,8 @@ Trigger Decrease_Global_Agglithuania
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggkievan_rus
     WhenToTest Transgression
@@ -3108,6 +3154,8 @@ Trigger Decrease_Global_Aggkievan_rus
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggserbia
     WhenToTest Transgression
@@ -3126,6 +3174,8 @@ Trigger Decrease_Global_Aggserbia
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Agggeorgia
     WhenToTest Transgression
@@ -3144,6 +3194,8 @@ Trigger Decrease_Global_Agggeorgia
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggnorway
     WhenToTest Transgression
@@ -3162,6 +3214,8 @@ Trigger Decrease_Global_Aggnorway
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggjerusalem
     WhenToTest Transgression
@@ -3180,6 +3234,8 @@ Trigger Decrease_Global_Aggjerusalem
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggzengid
     WhenToTest Transgression
@@ -3198,6 +3254,8 @@ Trigger Decrease_Global_Aggzengid
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggrum
     WhenToTest Transgression
@@ -3216,6 +3274,8 @@ Trigger Decrease_Global_Aggrum
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggpisa
     WhenToTest Transgression
@@ -3234,6 +3294,8 @@ Trigger Decrease_Global_Aggpisa
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
 Trigger Decrease_Global_Aggpapal_states
     WhenToTest Transgression
@@ -3252,6 +3314,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and GlobalStanding > -0.7
 		and FactionIsLocal
    FactionStanding global  -0.25
+   FactionStanding target_faction -1.0
+   FactionStanding target_allies -0.8
 ;------------------------------------------------
    
 ;This is the old entry for Aggressor Tracking Script
@@ -3268,7 +3332,7 @@ Trigger Decrease_Global_Aggpapal_states
 ; This is not working properly in later game. 
 
 ;========================================================
-;Rep penalty for undeclared siege = starting a war by AI
+;Rep penalty for sneak siege attack = starting a war by AI
 ;------------------------------------------------------- 
    Trigger Decrease_Global_Aggvenice_Siege_AI
     WhenToTest Transgression
@@ -3277,7 +3341,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggvenice > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3 
    
    Trigger Decrease_Global_Aggsicily_Siege_AI
     WhenToTest Transgression
@@ -3286,7 +3351,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggsicily > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggabbasid_Siege_AI
     WhenToTest Transgression
@@ -3295,7 +3361,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggabbasid > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggdenmark_Siege_AI
     WhenToTest Transgression
@@ -3304,7 +3371,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggdenmark > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggegypt_Siege_AI
     WhenToTest Transgression
@@ -3313,7 +3381,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggegypt > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggscotland_Siege_AI
     WhenToTest Transgression
@@ -3322,7 +3391,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggscotland > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggcumans_Siege_AI
     WhenToTest Transgression
@@ -3331,7 +3401,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggcumans > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggturks_Siege_AI
     WhenToTest Transgression
@@ -3340,7 +3411,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggturks > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggfrance_Siege_AI
     WhenToTest Transgression
@@ -3349,7 +3421,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggfrance > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Agghre_Siege_AI
     WhenToTest Transgression
@@ -3358,7 +3431,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter agghre > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggengland_Siege_AI
     WhenToTest Transgression
@@ -3367,7 +3441,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggengland > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggportugal_Siege_AI
     WhenToTest Transgression
@@ -3376,7 +3451,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggportugal > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggpoland_Siege_AI
     WhenToTest Transgression
@@ -3385,7 +3461,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggpoland > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggbyzantium_Siege_AI
     WhenToTest Transgression
@@ -3394,7 +3471,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggbyzantium > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggmoors_Siege_AI
     WhenToTest Transgression
@@ -3403,7 +3481,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggmoors > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggrussia_Siege_AI
     WhenToTest Transgression
@@ -3412,7 +3491,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggrussia > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggspain_Siege_AI
     WhenToTest Transgression
@@ -3421,7 +3501,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggspain > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Agghungary_Siege_AI
     WhenToTest Transgression
@@ -3430,7 +3511,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter agghungary > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggaragon_Siege_AI
     WhenToTest Transgression
@@ -3439,7 +3521,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggaragon > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Agglithuania_Siege_AI
     WhenToTest Transgression
@@ -3448,7 +3531,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter agglithuania > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggkievan_rus_Siege_AI
     WhenToTest Transgression
@@ -3457,7 +3541,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggkievan_rus > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggserbia_Siege_AI
     WhenToTest Transgression
@@ -3466,7 +3551,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggserbia > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Agggeorgia_Siege_AI
     WhenToTest Transgression
@@ -3475,7 +3561,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter agggeorgia > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggnorway_Siege_AI
     WhenToTest Transgression
@@ -3484,7 +3571,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggnorway > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggjerusalem_Siege_AI
     WhenToTest Transgression
@@ -3493,7 +3581,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggjerusalem > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggzengid_Siege_AI
     WhenToTest Transgression
@@ -3502,7 +3591,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggzengid > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggrum_Siege_AI
     WhenToTest Transgression
@@ -3511,7 +3601,8 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggrum > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
    Trigger Decrease_Global_Aggpisa_Siege_AI
     WhenToTest Transgression
@@ -3520,63 +3611,64 @@ Trigger Decrease_Global_Aggpapal_states
 		and I_EventCounter aggpisa > 0
 		and GlobalStanding > -0.7
 		and not FactionIsLocal
-   FactionStanding global  -0.055
-;------------------------------------------------
-
+   FactionStanding global  -0.042
+   FactionStanding target_faction -0.3
    
 ;------------------------------------------
+;--- RELEASE TRIGGERS ---------------------
+;------------------------------------------   
+
 Trigger Prisoners_released_fl_increase_global_1
     WhenToTest FactionLeaderPrisonersRansomedCaptor
     Condition RansomType release
 		and NumCapturedSoldiers > 1000
 		and not TargetFactionType slave
-    FactionStanding global 0.15
-    FactionStanding target_faction normalise 0.8 10
-    FactionStanding target_allies normalise 0.6 50
+    FactionStanding global 0.03
+    FactionStanding target_faction normalise 0.5 10
+    FactionStanding target_allies normalise 0.6 30
 
 ;------------------------------------------
 Trigger Prisoners_released_fl_increase_global_2
     WhenToTest FactionLeaderPrisonersRansomedCaptor
     Condition RansomType release
         and NumCapturedSoldiers > 400
-        and NumCapturedSoldiers < 1000
 		and not TargetFactionType slave
-    FactionStanding global 0.1
-    FactionStanding target_faction normalise 0.8 20
-    FactionStanding target_allies normalise 0.6 100
+    FactionStanding global 0.03
+    FactionStanding target_faction normalise 0.4 20
+    FactionStanding target_allies normalise 0.6 40
     
 ;------------------------------------------
 Trigger Prisoners_released_fl_increase_global_3
     WhenToTest FactionLeaderPrisonersRansomedCaptor
     Condition RansomType release
-		and NumCapturedSoldiers > 100
-		and NumCapturedSoldiers < 400
 		and not TargetFactionType slave
-    FactionStanding global 0.08
-    FactionStanding target_faction normalise 0.8 30
-    FactionStanding target_allies normalise 0.6 150
+    FactionStanding global 0.03
+    FactionStanding target_faction normalise 0.3 30
+    FactionStanding target_allies normalise 0.6 50
 
 ;------------------------------------------
 Trigger Prisoners_released_increase_global_1
     WhenToTest GeneralPrisonersRansomedCaptor
+	
     Condition RansomType release
         and NumCapturedSoldiers > 1000
 		and not TargetFactionType slave
-    FactionStanding global 0.2
-    FactionStanding target_faction normalise 0.8 10
-    FactionStanding target_allies normalise 0.6 50
+    FactionStanding global 0.12
+    FactionStanding target_faction normalise 0.4 10
+    FactionStanding target_allies normalise 0.6 20
 
 ;------------------------------------------
 Trigger Prisoners_released_increase_global_2
     WhenToTest GeneralPrisonersRansomedCaptor
+	
     Condition RansomType release
         and NumCapturedSoldiers > 400
         and NumCapturedSoldiers < 1000
 		and not TargetFactionType slave
 
-    FactionStanding global 0.12
-    FactionStanding target_faction normalise 0.8 20
-    FactionStanding target_allies normalise 0.6 100
+    FactionStanding global 0.1
+    FactionStanding target_faction normalise 0.3 20
+    FactionStanding target_allies normalise 0.6 30
     
 ;------------------------------------------
 Trigger Prisoners_released_increase_global_3
@@ -3588,99 +3680,53 @@ Trigger Prisoners_released_increase_global_3
           and not TargetFactionType slave
 
     FactionStanding global 0.08
-    FactionStanding target_faction normalise 0.8 30
-    FactionStanding target_allies normalise 0.6 150
-
+    FactionStanding target_faction normalise 0.3 30
+    FactionStanding target_allies normalise 0.6 40
 ;------------------------------------------
-Trigger Prisoners_ransomed_no_pay_fl_decrease_global_1
-    WhenToTest FactionLeaderPrisonersRansomedCaptor
+Trigger Prisoners_released_increase_global_4
+    WhenToTest GeneralPrisonersRansomedCaptor
 
-    Condition RansomType cannot_pay_ransom
-        and NumCapturedSoldiers > 1000
-	      and not TargetFactionType slave
-
-    FactionStanding global -0.075
-    FactionStanding target_faction normalise -0.6 30
-    FactionStanding target_allies normalise -0.4 100
-
-;------------------------------------------
-Trigger Prisoners_ransomed_no_pay_fl_decrease_global_2
-    WhenToTest FactionLeaderPrisonersRansomedCaptor
-
-    Condition RansomType cannot_pay_ransom
-        and NumCapturedSoldiers > 400
-        and NumCapturedSoldiers < 1000
-	      and not TargetFactionType slave
-
-    FactionStanding global -0.05
-    FactionStanding target_faction normalise -0.6 60
-    FactionStanding target_allies normalise -0.4 200
-    
-;------------------------------------------
-Trigger Prisoners_ransomed_no_pay_fl_decrease_global_3
-    WhenToTest FactionLeaderPrisonersRansomedCaptor
-
-    Condition RansomType cannot_pay_ransom
-          and NumCapturedSoldiers > 100
-          and NumCapturedSoldiers < 400
+    Condition RansomType release
+          and NumCapturedSoldiers > 20
+          and NumCapturedSoldiers < 101
           and not TargetFactionType slave
+
+    FactionStanding global 0.04
+    FactionStanding target_faction normalise 0.3 40
+    FactionStanding target_allies normalise 0.6 50
+	
+	
+;------------------------------------------------------------
+;--- RANSOM TRIGGERS ----------------------------------------
+;------------------------------------------------------------ 
+; GeneralPrisonersRansomedCaptive works here, while GeneralPrisonersRansomedCaptor doesn't
+
+Trigger Prisoners_ransom_paid
+    WhenToTest GeneralPrisonersRansomedCaptive
+
+    Condition RansomType ransom
+		and I_EventCounter is_the_player == 1
+		and NumCapturedSoldiers > 1
+		and RansomAmount > 1
+
+    FactionStanding global 0.01
+    FactionStanding target_faction 0.01
+
+;------------------------------------------
+;cannot_pay_ransom does not work
+
+Trigger Prisoners_ransom_not_paid
+    WhenToTest GeneralPrisonersRansomedCaptive
+
+    Condition RansomType execute
+		and I_EventCounter is_the_player == 1  
+		and NumCapturedSoldiers > 1
 
     FactionStanding global -0.01
-    FactionStanding target_faction normalise -0.6 100
-    FactionStanding target_allies normalise -0.4 250
+	FactionStanding target_faction -0.01
 
 ;------------------------------------------
-Trigger Prisoners_ransomed_no_pay_decrease_global_1
-    WhenToTest GeneralPrisonersRansomedCaptor
-
-    Condition RansomType cannot_pay_ransom
-        and NumCapturedSoldiers > 1000
-	      and not TargetFactionType slave
-
-    FactionStanding global -0.05
-    FactionStanding target_faction normalise -0.6 30
-    FactionStanding target_allies normalise -0.4 100
-
-;------------------------------------------
-Trigger Prisoners_ransomed_no_pay_decrease_global_2
-    WhenToTest GeneralPrisonersRansomedCaptor
-
-    Condition RansomType cannot_pay_ransom
-        and NumCapturedSoldiers > 400
-        and NumCapturedSoldiers < 1000
-	      and not TargetFactionType slave
-
-    FactionStanding global -0.01
-    FactionStanding target_faction normalise -0.6 60
-    FactionStanding target_allies normalise -0.4 200
-    
-;------------------------------------------
-Trigger Prisoners_ransomed_no_pay_decrease_global_3H
-    WhenToTest GeneralPrisonersRansomedCaptor
-
-    Condition RansomType cannot_pay_ransom
-          and NumCapturedSoldiers > 100
-          and NumCapturedSoldiers < 400
-          and not TargetFactionType slave
-          and FactionIsLocal
-
-    FactionStanding global -0.005
-    FactionStanding target_faction normalise -0.6 100
-    FactionStanding target_allies normalise -0.4 250
-    
-;------------------------------------------
-Trigger Prisoners_ransomed_no_pay_decrease_global_3AI
-    WhenToTest GeneralPrisonersRansomedCaptor
-
-    Condition RansomType cannot_pay_ransom
-          and NumCapturedSoldiers > 100
-          and NumCapturedSoldiers < 400
-          and not TargetFactionType slave
-          and not FactionIsLocal
-
-    FactionStanding target_faction normalise -0.6 100
-    FactionStanding target_allies normalise -0.4 250
-
+;--- EXECUTE TRIGGERS ---------------------
 ;------------------------------------------
 Trigger Prisoners_executed_fl_decrease_global_1
     WhenToTest FactionLeaderPrisonersRansomedCaptor
@@ -3711,7 +3757,7 @@ Trigger Prisoners_executed_fl_decrease_global_3
     WhenToTest FactionLeaderPrisonersRansomedCaptor
 
     Condition RansomType execute
-          and NumCapturedSoldiers > 100
+          and NumCapturedSoldiers > 10
           and NumCapturedSoldiers < 400
           and not TargetFactionType slave
 
@@ -3802,7 +3848,7 @@ Trigger characters_executed_decrease_global
 Trigger 0101_sack_settlement_decrease_global
     WhenToTest SackSettlement
 
-    FactionStanding global -0.18 ; for non-sphere settlements (see end of file) additional -0.1
+    FactionStanding global -0.2 ; for non-sphere settlements (see end of file) additional -0.1
     FactionStanding target_faction normalise -1.0 8 ; for non-sphere settlements (see end of file) additional -1 8
     FactionStanding target_allies normalise -1.0 160 ; for non-sphere settlements (see end of file) additional -1 160
     FactionStanding exclude_factions { slave } normalise -1.0 60 ; for non-sphere settlements (see end of file) additional -1 90
@@ -3811,7 +3857,7 @@ Trigger 0101_sack_settlement_decrease_global
 Trigger 0102_extermination_decrease_global
     WhenToTest ExterminatePopulation
 
-    FactionStanding global -0.25 ;for non-sphere settlements (see end of file) additional -0.1
+    FactionStanding global -0.4 ;for non-sphere settlements (see end of file) additional -0.1
     FactionStanding target_faction normalise -1.0 3 ; for non-sphere settlements (see end of file) additional -1 8
     FactionStanding target_allies normalise -1.0 40 ; for non-sphere settlements (see end of file) additional -1 160
     FactionStanding exclude_factions { slave } normalise -1.0 20 ; for non-sphere settlements (see end of file) additional -1 90
@@ -3823,6 +3869,12 @@ Trigger 0103_occupy_settlement_increase_global
     FactionStanding global 0.05 ; for non-sphere settlements (see end of file) additional -0.1
     FactionStanding target_faction normalise -1.0 20 ; for non-sphere settlements (see end of file) additional -1 8
     FactionStanding exclude_factions { slave } normalise -1.0 90 ; for non-sphere settlements (see end of file) additional -1 90
+	
+;------------------------------------------
+Trigger Human_Capture_Settlement
+    WhenToTest GeneralCaptureSettlement
+		Condition I_EventCounter is_the_player == 1  
+    FactionStanding target_faction -0.5 
 
 ; make all other factions hate the rebels
 ;------------------------------------------
@@ -3833,22 +3885,36 @@ Trigger 0103_Update_Slaves
 
     FactionStanding exclude_factions { slave } normalise -1.0 1
 
+
 ; make factions like trustworthy factions more
 ;---------------------------------------------
+;Adjust relations based on reputation 
+;---------------------------------------------
+
 Trigger 0105_Update_Trustworthy_Factions_Major
     WhenToTest FactionTurnStart
-
     Condition GlobalStanding > 0.5
-
-    FactionStanding exclude_factions { slave } normalise 0.3 30
-
+    FactionStanding exclude_factions { slave } normalise 0.4 40
+;---------------------------------------------
+Trigger 0105_Update_Trustworthy_Factions_Allies
+    WhenToTest FactionTurnStart
+    Condition GlobalStanding > 0.5
+	FactionStanding allies normalise 0.9 30
+;---------------------------------------------
+Trigger 0105_Update_VeryReliable_Factions_Major
+    WhenToTest FactionTurnStart
+    Condition GlobalStanding > 0.35
+    FactionStanding exclude_factions { slave } normalise 0.3 40
+;---------------------------------------------
+Trigger 0105_Update_VeryReliable_Factions_Allies
+    WhenToTest FactionTurnStart
+    Condition GlobalStanding > 0.35
+	FactionStanding allies normalise 0.8 30
 ;---------------------------------------------
 Trigger 0106_Update_Trustworthy_Factions_Minor
     WhenToTest FactionTurnStart
-
     Condition GlobalStanding > 0.2
-
-    FactionStanding exclude_factions { slave } normalise 0.1 30
+    FactionStanding exclude_factions { slave } normalise 0.1 60
 
 ; make factions like untrustworthy factions less
 ;---------------------------------------------
@@ -3883,6 +3949,18 @@ Trigger New_Faction_Leader_trigger
 
     FactionStanding exclude_factions { slave } normalise 0.2 10
     FactionStanding global normalise 0.1 10
+
+;---------------------------------------------
+; Normalise when in war, forget grudges
+
+Trigger 0111_Forget_Harm_Human
+    WhenToTest UpdateAttitude
+    Condition DiplomaticStanceFactions = AtWar
+    and not FactionType slave
+    and not FactionIsLocal
+    and TargetFactionIsLocal
+
+    FactionStanding enemies normalise 0.0 60
 
 
 ;######################################################################### 
@@ -4195,7 +4273,8 @@ Trigger 0035_P_Give_Rome
           and SettlementName Rome
 	  and DiplomaticStanceFromFaction papal_states < AtWar
 
-    FactionStanding factions { papal_states } 0.5
+    FactionStanding factions { papal_states } 0.8
+	FactionStanding factions { england, france, spain, portugal, pisa, venice, sicily, hre, hungary, poland, denmark, scotland, norway, aragon, jerusalem  } 0.2
 
 ;------------------------------------------
 Trigger 0036_P_Alliance_Declared
@@ -4203,19 +4282,20 @@ Trigger 0036_P_Alliance_Declared
 
     Condition TargetFactionType papal_states
 
-    FactionStanding factions { papal_states } 0.2
-
+    FactionStanding factions { papal_states } 0.3
+	FactionStanding factions { england, france, spain, portugal, pisa, venice, sicily, hre, hungary, poland, denmark, scotland, norway, aragon, jerusalem  } 0.05
 ;------------------------------------------
 Trigger Alliance_Declared_Catholic_to_Catholic
     WhenToTest FactionAllianceDeclared
 
     Condition FactionReligion catholic
 	and TargetFactionReligion catholic
-
-    FactionStanding factions { papal_states } 0.01
-    FactionStanding target_faction normalise 1.0 80
-    FactionStanding target_allies normalise 1.0 200
-    FactionStanding target_enemies normalise -1.0 200
+	and not TargetFactionExcommunicated
+	
+    FactionStanding factions { papal_states } 0.05
+    FactionStanding target_faction 0.3
+    FactionStanding target_allies normalise 1.0 20
+    FactionStanding target_enemies normalise -1.0 30
 
 ;------------------------------------------
 Trigger Alliance_Declared_Catholic_to_Orthodox
@@ -4224,10 +4304,9 @@ Trigger Alliance_Declared_Catholic_to_Orthodox
     Condition FactionReligion catholic
 	and TargetFactionReligion orthodox
 
-    FactionStanding factions { papal_states } 0.01
-    FactionStanding target_faction normalise 1.0 80
-    FactionStanding target_allies normalise 1.0 200
-    FactionStanding target_enemies normalise -1.0 200
+    FactionStanding target_faction 0.3
+    FactionStanding target_allies normalise 1.0 30
+    FactionStanding target_enemies normalise -1.0 30
 
 ;------------------------------------------
 Trigger Alliance_Declared_Catholic_to_Non_Christian
@@ -4238,9 +4317,9 @@ Trigger Alliance_Declared_Catholic_to_Non_Christian
 	and not TargetFactionReligion orthodox
 
     FactionStanding factions { papal_states } -0.1
-    FactionStanding target_faction normalise 1.0 80
-    FactionStanding target_allies normalise 1.0 200
-    FactionStanding target_enemies normalise -1.0 200
+    FactionStanding target_faction 0.3
+    FactionStanding target_allies normalise 1.0 30
+    FactionStanding target_enemies normalise -1.0 30
 
 ;------------------------------------------
 Trigger Alliance_Declared_Orthodox_to_Orthodox
@@ -4249,10 +4328,9 @@ Trigger Alliance_Declared_Orthodox_to_Orthodox
     Condition FactionReligion orthodox
 	and TargetFactionReligion orthodox
 
-    FactionStanding factions { papal_states } -0.05
-    FactionStanding target_faction normalise 1.0 80
-    FactionStanding target_allies normalise 1.0 200
-    FactionStanding target_enemies normalise -1.0 200
+    FactionStanding target_faction 0.3
+    FactionStanding target_allies normalise 1.0 30
+    FactionStanding target_enemies normalise -1.0 30
 
 ;------------------------------------------
 Trigger Alliance_Declared_Orthodox_to_Catholic
@@ -4262,9 +4340,9 @@ Trigger Alliance_Declared_Orthodox_to_Catholic
 	and TargetFactionReligion catholic
 
     FactionStanding factions { papal_states } 0.05
-    FactionStanding target_faction normalise 1.0 80
-    FactionStanding target_allies normalise 1.0 200
-    FactionStanding target_enemies normalise -1.0 200
+    FactionStanding target_faction 0.3
+    FactionStanding target_allies normalise 1.0 30
+    FactionStanding target_enemies normalise -1.0 30
 
 ;------------------------------------------
 Trigger Alliance_Declared_Orthodox_to_Non_Christian
@@ -4275,9 +4353,9 @@ Trigger Alliance_Declared_Orthodox_to_Non_Christian
 	and not TargetFactionReligion orthodox
 
     FactionStanding factions { papal_states } -0.02
-    FactionStanding target_faction normalise 1.0 80
-    FactionStanding target_allies normalise 1.0 200
-    FactionStanding target_enemies normalise -1.0 200
+    FactionStanding target_faction 0.3
+    FactionStanding target_allies normalise 1.0 30
+    FactionStanding target_enemies normalise -1.0 30
 
 ;------------------------------------------
 Trigger Alliance_Declared_Islamic_to_Islamic
@@ -4287,9 +4365,9 @@ Trigger Alliance_Declared_Islamic_to_Islamic
 	and TargetFactionReligion islam
 
     FactionStanding factions { papal_states } -0.02
-    FactionStanding target_faction normalise 1.0 80
-    FactionStanding target_allies normalise 1.0 200
-    FactionStanding target_enemies normalise -1.0 200
+    FactionStanding target_faction 0.3
+    FactionStanding target_allies normalise 1.0 30
+    FactionStanding target_enemies normalise -1.0 30
 
 ;------------------------------------------
 Trigger Alliance_Declared_Islamic_to_Non_Islamic
@@ -4299,14 +4377,15 @@ Trigger Alliance_Declared_Islamic_to_Non_Islamic
 	and not TargetFactionReligion islam
 
     FactionStanding factions { papal_states } -0.02
-    FactionStanding target_faction normalise 1.0 80
-    FactionStanding target_allies normalise 1.0 200
-    FactionStanding target_enemies normalise -1.0 200
+    FactionStanding target_faction 0.3
+    FactionStanding target_allies normalise 1.0 30
+    FactionStanding target_enemies normalise -1.0 30
 
 ;------------------------------------------
 ;Fires when ally army attacks another ally army or settlement
 ;or when its cancelled by diplomacy,
-;and fires twice, is it a bug? Maybe fires once for each faction involved?(macaras)
+;and fires twice, is it a bug? Maybe fires once for each faction involved?
+;thats why the relations only suffer but not global reputation.
 
 Trigger 0037_P_Break_Alliance_Any
     WhenToTest FactionBreakAlliance
@@ -4323,8 +4402,8 @@ Trigger 0038_P_Successful_Diplomacy
 
     Condition MissionSucceeded
 
-    FactionStanding target_faction normalise 1.0 75
-    FactionStanding own_religion normalise 1.0 150
+    FactionStanding target_faction normalise 1.0 20
+    FactionStanding own_religion normalise 1.0 40
 
 ;------------------------------------------
 Trigger 0039_P_War_Declared
@@ -4383,8 +4462,7 @@ Trigger 0044_P_At_War_Pope_Elected
 ;------------------------------------------
 Trigger 0045_P_Voted_For_Pope
     WhenToTest VotedForPope
-
-    FactionStanding factions { papal_states } 0.1
+    FactionStanding factions { papal_states } 0.2
 
 
 ;######################################################################### 
@@ -4394,42 +4472,34 @@ Trigger 0045_P_Voted_For_Pope
 ;------------------------------------------
 Trigger 0046_P_Normalise_AI
     WhenToTest FactionTurnStart
-
     Condition FactionReligion catholic
     and not FactionIsLocal
-
     FactionStanding factions { papal_states } normalise 0.6 70
 
 ;------------------------------------------
 Trigger 0046_P_Normalise_Player
     WhenToTest FactionTurnStart
-
     Condition FactionReligion catholic
     and FactionIsLocal
-
     FactionStanding factions { papal_states } normalise 0.4 70
     
 
 ;------------------------------------------
 Trigger 0047_P_Inquisitor_Appointed
     WhenToTest InquisitorAppointed
-
     FactionStanding factions { papal_states } -0.1
 
 ;------------------------------------------
 Trigger 0048_P_Assassin_Caught_Attacking_Pope
     WhenToTest AssassinCaughtAttackingPope
-
     FactionStanding factions { papal_states } -1.0
 
 ; Make the papal states dislike other religions
 ;------------------------------------------
 Trigger 0049_P_Normalise_Non_catholic
     WhenToTest FactionTurnStart
-
     Condition not FactionType slave
 		and not FactionReligion catholic
-
     FactionStanding factions { papal_states } normalise -1.0 120
 
 
@@ -4440,29 +4510,26 @@ Trigger 0049_P_Normalise_Non_catholic
 ;------------------------------------------
 Trigger 0079_F_Trade_Agreement
     WhenToTest FactionTradeAgreementMade
-
     FactionStanding target_faction 0.1
-    FactionStanding target_allies normalise 0.2 100
+    FactionStanding target_allies normalise 0.2 20
     FactionStanding global 0.01
 	
 ;------------------------------------------
 ; Event mil_assistance is in campaign_script
 Trigger 0080_F_Military_Assistance_Fix
     WhenToTest FactionTurnEnd
-	
 	Condition I_EventCounter mil_assistance > 0
-
 	FactionStanding global 0.15
 
 ;------------------------------------------
 Trigger 0080_F_Military_Assistance
     WhenToTest Forgiveness
-
     Condition ForgivenessName = FC_MILITARY_ASSISTANCE
 
-;	FactionStanding global 0.05	; trigger is broken as the trigger takes place from the perspective of the one being assisted, not the one doing the assisting
+;	FactionStanding global 0.05	; trigger is broken as the trigger takes place from the perspective of the one being assisted, 
+;	not the one doing the assisting, 
 	FactionStanding target_faction 0.2
-;    FactionStanding target_allies normalise 1.0 60
+    FactionStanding target_allies normalise 1.0 10
 
 ;------------------------------------------
 ;Need to pay 5x more than in 0.96
@@ -4470,10 +4537,8 @@ Trigger 0080_F_Military_Assistance
 
 Trigger 0081_F_Obvious_Bribe
     WhenToTest Forgiveness
-	
     Condition ForgivenessName = FC_OBVIOUS_BRIBE
 	and not TargetFactionType papal_states
-	
     FactionStanding target_faction 0.024
 ;------------------------------------------
 ;Need to pay 5x more than in 0.96, even more for papal state
@@ -4481,12 +4546,10 @@ Trigger 0081_F_Obvious_Bribe
 
 Trigger 0081_F_Obvious_Bribe
     WhenToTest Forgiveness
-
     Condition ForgivenessName = FC_OBVIOUS_BRIBE
 	and TargetFactionType papal_states
 	and DiplomaticStanceFromFaction papal_states < AtWar
 	and FactionIsLocal
-	
 	FactionStanding target_faction 0.012
 ;------------------------------------------
 ;Trigger 0082_F_Update_Attitude
@@ -4500,12 +4563,10 @@ Trigger 0081_F_Obvious_Bribe
 ;------------------------------------------
 Trigger 0082b_F_Alliance_Declared
     WhenToTest FactionAllianceDeclared
-
     Condition not TargetFactionType papal_states
-
     FactionStanding target_faction 0.1
-    FactionStanding target_allies normalise 1 75
-    FactionStanding target_enemies normalise -1.0 75
+    FactionStanding target_allies normalise 1 5
+    FactionStanding target_enemies normalise -1.0 5
 
 ; Inter faction marriage increases relationships
 ;------------------------------------------
@@ -4516,8 +4577,6 @@ Trigger 0082c_P_Faction_Marriage
     FactionStanding target_faction normalise 1 25
     FactionStanding target_allies normalise 1 75
 
-
-
 ;############################### DEMEANOR ####################################
 ;------------------------------------------
 Trigger 0083_Demeanour
@@ -4526,9 +4585,43 @@ Trigger 0083_Demeanour
     FactionStanding target_faction amount 1.0 0.002
     FactionStanding target_allies amount 1.0 0.001    
     
-    
+;################## BUILD CHARITY STRUCTURES ############################
+
+;--------------------------------------------
+Trigger FS_Build_Charity4
+    WhenToTest BuildingCompleted
+    Condition SettlementBuildingFinished = charity4 
+    FactionStanding factions { papal_states } 0.025
+    FactionStanding global 0.02
+	FactionStanding exclude_factions { } 0.01
+;--------------------------------------------
+Trigger FS_Build_Charity5
+    WhenToTest BuildingCompleted
+    Condition SettlementBuildingFinished = charity5 
+    FactionStanding factions { papal_states } 0.025
+    FactionStanding global 0.04
+	FactionStanding exclude_factions { } 0.02
+;------------------------------------------
+
+;################## BUILD UNIVERSITIES ############################
+
+;------------------------------------------
+Trigger FS_Build_University
+    WhenToTest BuildingCompleted
+    Condition SettlementBuildingFinished = university 
+    FactionStanding global 0.02
+;------------------------------------------
+Trigger FS_Build_Great_University
+    WhenToTest BuildingCompleted
+    Condition SettlementBuildingFinished = great_university 
+    FactionStanding global 0.04
+
+;------------------------------------------
+
 ;################## BUILD RELIGIOUS STRUCTURES ############################
+
 ;=========== CATHOLIC =====================
+
 ;------------------------------------------
 Trigger Catholic_Build_Small_Church
     WhenToTest BuildingCompleted
@@ -4566,9 +4659,7 @@ Trigger Catholic_Build_Abbey
 Trigger Catholic_Build_Abbey_Rep
     WhenToTest BuildingCompleted
 		Condition SettlementBuildingFinished = abbey
-		and GlobalStanding < 0.2
-
-    FactionStanding global normalise 0.5 100
+    FactionStanding global 0.05
 
 ;------------------------------------------
 Trigger Catholic_Build_Cathedral
@@ -4585,9 +4676,7 @@ Trigger Catholic_Build_Cathedral_Rep
     WhenToTest BuildingCompleted
 
     Condition SettlementBuildingFinished = cathedral
-	and GlobalStanding < 0.4
-
-    FactionStanding global 0.15
+    FactionStanding global 0.1
 
 ;------------------------------------------
 Trigger Catholic_Build_Huge_Cathedral
@@ -4605,8 +4694,7 @@ Trigger Catholic_Build_Huge_Cathedral_Rep
     WhenToTest BuildingCompleted
 
     Condition SettlementBuildingFinished = huge_cathedral
-	
-    FactionStanding global 0.2
+    FactionStanding global 0.15
 
 ;------------------------------------------
 Trigger Catholic_Build_Small_Chapel
@@ -4674,7 +4762,7 @@ Trigger Catholic_Build_First_Huge_Cathedral_Faction
     FactionStanding factions { england, france, spain, portugal, pisa, venice, sicily, hre, hungary, poland, denmark, scotland, norway, aragon, jerusalem } -0.012
     FactionStanding factions { byzantium, russia, georgia, serbia, kievan_rus } -0.016
     FactionStanding factions { moors, egypt, turks, rum, mongols, zengid , abbasid, cumans, lithuania } -0.032
-	FactionStanding global 0.15
+	FactionStanding global 0.1
 ;------------------------------------------
 Trigger Catholic_Build_First_Small_Chapel_Faction
     WhenToTest BuildingCompleted
@@ -4696,7 +4784,7 @@ Trigger Catholic_Build_First_Cathedral_World
     WhenToTest BuildingCompleted
 
     Condition NumBuildingsCompleted cathedral = 1
-
+	FactionStanding global 0.1
     FactionStanding factions { papal_states } 0.2
     FactionStanding factions { england, france, spain, portugal, pisa, venice, sicily, hre, hungary, poland, denmark, scotland, norway, aragon, jerusalem } -0.02
     FactionStanding factions { byzantium, russia, georgia, serbia, kievan_rus } -0.04
@@ -4707,7 +4795,7 @@ Trigger Catholic_Build_First_Huge_Cathedral_World
     WhenToTest BuildingCompleted
 
     Condition NumBuildingsCompleted huge_cathedral = 1
-
+	FactionStanding global 0.1
     FactionStanding factions { papal_states } 0.3
     FactionStanding factions { england, france, spain, portugal, pisa, venice, sicily, hre, hungary, poland, denmark, scotland, norway, aragon, jerusalem } -0.036
     FactionStanding factions { byzantium, russia, georgia, serbia, kievan_rus } -0.08
@@ -4746,16 +4834,13 @@ Trigger Orthodox_Build_Abbey
     FactionStanding factions { england, france, spain, portugal, pisa, venice, sicily, hre, hungary, poland, denmark, scotland, norway, aragon, jerusalem } -0.005
     FactionStanding factions { byzantium, russia, georgia, serbia, kievan_rus } 0.003
     FactionStanding factions { moors, egypt, turks, rum, mongols, zengid , abbasid, cumans, lithuania } -0.005
-    FactionStanding global normalise 0.2 100
 	
 ;------------------------------------------
 Trigger Orthodox_Build_Abbey_Rep
     WhenToTest BuildingCompleted
 
     Condition SettlementBuildingFinished = abbey_o
-	and GlobalStanding < 0.2
-
-    FactionStanding global 0.05
+	FactionStanding global 0.05
 
 ;------------------------------------------
 Trigger Orthodox_Build_Cathedral
@@ -4773,8 +4858,6 @@ Trigger Orthodox_Build_Cathedral_Rep
     WhenToTest BuildingCompleted
 
     Condition SettlementBuildingFinished = cathedral_o
-	and GlobalStanding < 0.4
-
     FactionStanding global 0.1
 
 ;------------------------------------------
@@ -4793,9 +4876,7 @@ Trigger Orthodox_Build_Huge_Cathedral_Rep
     WhenToTest BuildingCompleted
 
     Condition SettlementBuildingFinished = huge_cathedral_o
-	and GlobalStanding < 0.4
-
-    FactionStanding global 0.2
+    FactionStanding global 0.15
 
 ;------------------------------------------
 Trigger Orthodox_Build_Small_Chapel
@@ -4858,7 +4939,7 @@ Trigger Orthodox_Build_First_Huge_Cathedral_Faction
     WhenToTest BuildingCompleted
 
     Condition NumBuildingsCompletedFaction huge_cathedral_o = 1
-
+	FactionStanding global 0.1
     FactionStanding factions { papal_states } -0.1
     FactionStanding factions { england, france, spain, portugal, pisa, venice, sicily, hre, hungary, poland, denmark, scotland, norway, aragon, jerusalem }  -0.016
     FactionStanding factions { byzantium, russia, georgia, serbia, kievan_rus } -0.012
@@ -4957,9 +5038,7 @@ Trigger Muslim_Build_Cathedral
 Trigger Muslim_Build_Cathedral_Rep
     WhenToTest BuildingCompleted
 
-    Condition SettlementBuildingFinished = jama
-	and GlobalStanding < 0.4
-	
+    Condition SettlementBuildingFinished = jama	
     FactionStanding global 0.1
 
 ;------------------------------------------
@@ -4976,9 +5055,7 @@ Trigger Muslim_Build_Huge_Cathedral
 Trigger Muslim_Build_Huge_Cathedral_Rep
     WhenToTest BuildingCompleted
 
-    Condition SettlementBuildingFinished = great_jama
-	and GlobalStanding < 0.4
-	
+    Condition SettlementBuildingFinished = great_jama	
     FactionStanding global 0.2
 
 ;------------------------------------------
@@ -5680,8 +5757,10 @@ Trigger Enemies_Try_To_Capture_Jihad_Target
 
     Condition IsJihad  
 
-    FactionStanding target_faction normalise -1.0 1      
+    FactionStanding target_faction normalise -1.0 1  
+    
 ;================== CRUSADES ==============
+;------------------------------------------
 ;------------------------------------------
 ;Arriving the general to the crusade target improves reputation and catholic factions relations
 Trigger General_Arrives_Crusade_Any_Target
@@ -5702,7 +5781,6 @@ Trigger General_Arrives_Crusade_Islamic_Target
 
     Condition IsCrusade
 	and TargetFactionReligion islam
-	FactionStanding global 0.1
     FactionStanding factions { moors, egypt, turks, rum, abbasid, zengid } per_unit -0.001
 
 ;------------------------------------------
@@ -5711,7 +5789,6 @@ Trigger General_Arrives_Crusade_Pagan_Target
 
     Condition IsCrusade
 	and TargetFactionReligion pagan
-	FactionStanding global 0.1
     FactionStanding factions { cumans, lithuania, mongols } per_unit -0.001
 
 ;------------------------------------------
@@ -5735,9 +5812,7 @@ Trigger King_Arrives_Crusade_Target
 ;------------------------------------------
 Trigger General_Takes_Crusade_Islamic_Target
     WhenToTest GeneralTakesCrusadeTarget
-
-    Condition IsCrusade
-	and TargetFactionReligion islam
+	Condition TargetFactionReligion islam
 
     FactionStanding factions { papal_states } 0.2
     FactionStanding factions { england, france, spain, portugal, pisa, venice, sicily, hre, hungary, poland, denmark, scotland, norway, aragon, jerusalem } per_unit 0.002
@@ -5807,12 +5882,11 @@ Trigger 0056_P_Army_Takes_Crusade_Target
 ;------------------------------------------
 Trigger 0057_P_Character_Attacks_Crusading_General
     WhenToTest CharacterAttacksCrusadingGeneral
-
     Condition IsTargetOnCrusade
-
-    FactionStanding factions { papal_states } -0.1
+	and FactionReligion catholic
+    FactionStanding factions { papal_states } -0.2
     FactionStanding factions { england, france, spain, portugal, pisa, venice, sicily, hre, hungary, poland, denmark, scotland, norway, aragon, jerusalem } -0.005
-	FactionStanding global 0.05
+	FactionStanding global -0.2
 ;================== JIHADS ================
 ;------------------------------------------
 Trigger General_Arrives_Jihad_Any_Target
@@ -5949,13 +6023,15 @@ Trigger Character_Attacks_Jihading_General
     WhenToTest CharacterAttacksCrusadingGeneral
 
     Condition IsTargetOnJihad
-	and TargetFactionReligion catholic
-
-    FactionStanding factions { papal_states } 0.2
+	and FactionReligion islam
+	
+	FactionStanding factions { moors, egypt, turks, rum, abbasid, zengid } per_unit -0.002
+    FactionStanding factions { papal_states } 0.05
     FactionStanding target_faction per_unit -0.0015
-    FactionStanding target_allies -0.012
-    FactionStanding target_enemies 0.001
-	FactionStanding global 0.05
+	FactionStanding global -0.2
+	
+	
+	
 ;########################## CHARACTERS ################################
 ;------------------------------------------
 Trigger 0030_P_Recruit_Priest_Catholic
@@ -6658,7 +6734,7 @@ Trigger sphere_pisa
 	FactionStanding target_allies normalise -1.0 160
     FactionStanding target_faction normalise -1.0 8
     FactionStanding exclude_factions { slave } normalise -1.0 90
-;------------------------------------------- 
+;-------------------------------------------
 Trigger sphere_papal_states
 	WhenToTest GeneralCaptureSettlement
 	
@@ -6672,2464 +6748,284 @@ Trigger sphere_papal_states
     FactionStanding exclude_factions { slave } normalise -1.0 90
 ;-------------------------------------------
 
-;##########         IMPROVE RELATIONS
-;--------------------------------------------------
-Trigger fs_improve_relations_venice_1
-	WhenToTest FactionTurnStart
 
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_venice = 1
-
-    FactionStanding factions { venice } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_venice_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_venice = 2
-
-    FactionStanding factions { venice } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_venice_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_venice = 3
-
-    FactionStanding factions { venice } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_venice_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_venice= 4
-
-    FactionStanding factions { venice } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_venice_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_venice = 5
-
-    FactionStanding factions { venice } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_venice_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_venice = 6
-
-    FactionStanding factions { venice } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_venice_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_venice = 7
-
-    FactionStanding factions { venice } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_venice_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_venice = 8
-
-    FactionStanding factions { venice } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_venice_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_venice = 9
-
-    FactionStanding factions { venice } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_venice_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_venice >= 10
-
-    FactionStanding factions { venice } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_sicily_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_sicily = 1
-
-    FactionStanding factions { sicily } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_sicily_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_sicily = 2
-
-    FactionStanding factions { sicily } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_sicily_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_sicily = 3
-
-    FactionStanding factions { sicily } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_sicily_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_sicily = 4
-
-    FactionStanding factions { sicily } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_sicily_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_sicily = 5
-
-    FactionStanding factions { sicily } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_sicily_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_sicily = 6
-
-    FactionStanding factions { sicily } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_sicily_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_sicily = 7
-
-    FactionStanding factions { sicily } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_sicily_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_sicily = 8
-
-    FactionStanding factions { sicily } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_sicily_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_sicily = 9
-
-    FactionStanding factions { sicily } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_sicily_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_sicily >= 10
-
-    FactionStanding factions { sicily } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_abbasid_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_abbasid = 1
-
-    FactionStanding factions { abbasid } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_abbasid_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_abbasid = 2
-
-    FactionStanding factions { abbasid } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_abbasid_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_abbasid = 3
-
-    FactionStanding factions { abbasid } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_abbasid_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_abbasid = 4
-
-    FactionStanding factions { abbasid } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_abbasid_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_abbasid = 5
-
-    FactionStanding factions { abbasid } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_abbasid_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_abbasid = 6
-
-    FactionStanding factions { abbasid } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_abbasid_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_abbasid = 7
-
-    FactionStanding factions { abbasid } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_abbasid_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_abbasid = 8
-
-    FactionStanding factions { abbasid } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_abbasid_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_abbasid = 9
-
-    FactionStanding factions { abbasid } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_abbasid_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_abbasid >= 10
-
-    FactionStanding factions { abbasid } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_denmark_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_denmark = 1
-
-    FactionStanding factions { denmark } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_denmark_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_denmark = 2
-
-    FactionStanding factions { denmark } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_denmark_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_denmark = 3
-
-    FactionStanding factions { denmark } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_denmark_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_denmark = 4
-
-    FactionStanding factions { denmark } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_denmark_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_denmark = 5
-
-    FactionStanding factions { denmark } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_denmark_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_denmark = 6
-
-    FactionStanding factions { denmark } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_denmark_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_denmark = 7
-
-    FactionStanding factions { denmark } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_denmark_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_denmark = 8
-
-    FactionStanding factions { denmark } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_denmark_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_denmark = 9
-
-    FactionStanding factions { denmark } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_denmark_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_denmark >= 10
-
-    FactionStanding factions { denmark } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_egypt_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_egypt = 1
-
-    FactionStanding factions { egypt } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_egypt_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_egypt = 2
-
-    FactionStanding factions { egypt } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_egypt_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_egypt = 3
-
-    FactionStanding factions { egypt } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_egypt_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_egypt = 4
-
-    FactionStanding factions { egypt } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_egypt_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_egypt = 5
-
-    FactionStanding factions { egypt } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_egypt_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_egypt = 6
-
-    FactionStanding factions { egypt } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_egypt_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_egypt = 7
-
-    FactionStanding factions { egypt } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_egypt_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_egypt = 8
-
-    FactionStanding factions { egypt } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_egypt_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_egypt = 9
-
-    FactionStanding factions { egypt } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_egypt_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_egypt >= 10
-
-    FactionStanding factions { egypt } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_scotland_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_scotland = 1
-
-    FactionStanding factions { scotland } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_scotland_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_scotland = 2
-
-    FactionStanding factions { scotland } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_scotland_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_scotland = 3
-
-    FactionStanding factions { scotland } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_scotland_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_scotland = 4
-
-    FactionStanding factions { scotland } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_scotland_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_scotland = 5
-
-    FactionStanding factions { scotland } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_scotland_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_scotland = 6
-
-    FactionStanding factions { scotland } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_scotland_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_scotland = 7
-
-    FactionStanding factions { scotland } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_scotland_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_scotland = 8
-
-    FactionStanding factions { scotland } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_scotland_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_scotland = 9
-
-    FactionStanding factions { scotland } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_scotland_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_scotland >= 10
-
-    FactionStanding factions { scotland } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_cumans_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_cumans = 1
-
-    FactionStanding factions { cumans } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_cumans_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_cumans = 2
-
-    FactionStanding factions { cumans } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_cumans_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_cumans = 3
-
-    FactionStanding factions { cumans } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_cumans_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_cumans = 4
-
-    FactionStanding factions { cumans } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_cumans_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_cumans = 5
-
-    FactionStanding factions { cumans } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_cumans_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_cumans = 6
-
-    FactionStanding factions { cumans } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_cumans_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_cumans = 7
-
-    FactionStanding factions { cumans } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_cumans_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_cumans = 8
-
-    FactionStanding factions { cumans } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_cumans_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_cumans = 9
-
-    FactionStanding factions { cumans } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_cumans_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_cumans >= 10
-
-    FactionStanding factions { cumans } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_turks_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_turks = 1
-
-    FactionStanding factions { turks } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_turks_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_turks = 2
-
-    FactionStanding factions { turks } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_turks_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_turks = 3
-
-    FactionStanding factions { turks } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_turks_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_turks = 4
-
-    FactionStanding factions { turks } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_turks_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_turks = 5
-
-    FactionStanding factions { turks } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_turks_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_turks = 6
-
-    FactionStanding factions { turks } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_turks_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_turks = 7
-
-    FactionStanding factions { turks } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_turks_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_turks = 8
-
-    FactionStanding factions { turks } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_turks_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_turks = 9
-
-    FactionStanding factions { turks } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_turks_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_turks >= 10
-
-    FactionStanding factions { turks } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_france_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_france = 1
-
-    FactionStanding factions { france } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_france_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_france = 2
-
-    FactionStanding factions { france } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_france_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_france = 3
-
-    FactionStanding factions { france } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_france_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_france = 4
-
-    FactionStanding factions { france } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_france_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_france = 5
-
-    FactionStanding factions { france } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_france_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_france = 6
-
-    FactionStanding factions { france } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_france_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_france = 7
-
-    FactionStanding factions { france } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_france_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_france = 8
-
-    FactionStanding factions { france } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_france_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_france = 9
-
-    FactionStanding factions { france } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_france_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_france >= 10
-
-    FactionStanding factions { france } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_hre_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hre = 1
-
-    FactionStanding factions { hre } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_hre_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hre = 2
-
-    FactionStanding factions { hre } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_hre_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hre = 3
-
-    FactionStanding factions { hre } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_hre_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hre = 4
-
-    FactionStanding factions { hre } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_hre_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hre = 5
-
-    FactionStanding factions { hre } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_hre_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hre = 6
-
-    FactionStanding factions { hre } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_hre_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hre = 7
-
-    FactionStanding factions { hre } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_hre_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hre = 8
-
-    FactionStanding factions { hre } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_hre_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hre = 9
-
-    FactionStanding factions { hre } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_hre_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hre >= 10
-
-    FactionStanding factions { hre } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_england_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_england = 1
-
-    FactionStanding factions { england } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_england_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_england = 2
-
-    FactionStanding factions { england } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_england_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_england = 3
-
-    FactionStanding factions { england } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_england_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_england = 4
-
-    FactionStanding factions { england } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_england_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_england = 5
-
-    FactionStanding factions { england } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_england_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_england = 6
-
-    FactionStanding factions { england } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_england_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_england = 7
-
-    FactionStanding factions { england } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_england_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_england = 8
-
-    FactionStanding factions { england } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_england_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_england = 9
-
-    FactionStanding factions { england } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_england_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_england >= 10
-
-    FactionStanding factions { england } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_portugal_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_portugal = 1
-
-    FactionStanding factions { portugal } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_portugal_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_portugal = 2
-
-    FactionStanding factions { portugal } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_portugal_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_portugal = 3
-
-    FactionStanding factions { portugal } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_portugal_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_portugal = 4
-
-    FactionStanding factions { portugal } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_portugal_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_portugal = 5
-
-    FactionStanding factions { portugal } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_portugal_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_portugal = 6
-
-    FactionStanding factions { portugal } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_portugal_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_portugal = 7
-
-    FactionStanding factions { portugal } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_portugal_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_portugal = 8
-
-    FactionStanding factions { portugal } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_portugal_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_portugal = 9
-
-    FactionStanding factions { portugal } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_portugal_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_portugal >= 10
-
-    FactionStanding factions { portugal } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_poland_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_poland = 1
-
-    FactionStanding factions { poland } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_poland_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_poland = 2
-
-    FactionStanding factions { poland } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_poland_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_poland = 3
-
-    FactionStanding factions { poland } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_poland_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_poland = 4
-
-    FactionStanding factions { poland } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_poland_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_poland = 5
-
-    FactionStanding factions { poland } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_poland_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_poland = 6
-
-    FactionStanding factions { poland } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_poland_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_poland = 7
-
-    FactionStanding factions { poland } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_poland_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_poland = 8
-
-    FactionStanding factions { poland } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_poland_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_poland = 9
-
-    FactionStanding factions { poland } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_poland_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_poland >= 10
-
-    FactionStanding factions { poland } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_byzantium_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_byzantium = 1
-
-    FactionStanding factions { byzantium } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_byzantium_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_byzantium = 2
-
-    FactionStanding factions { byzantium } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_byzantium_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_byzantium = 3
-
-    FactionStanding factions { byzantium } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_byzantium_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_byzantium = 4
-
-    FactionStanding factions { byzantium } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_byzantium_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_byzantium = 5
-
-    FactionStanding factions { byzantium } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_byzantium_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_byzantium = 6
-
-    FactionStanding factions { byzantium } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_byzantium_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_byzantium = 7
-
-    FactionStanding factions { byzantium } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_byzantium_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_byzantium = 8
-
-    FactionStanding factions { byzantium } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_byzantium_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_byzantium = 9
-
-    FactionStanding factions { byzantium } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_byzantium_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_byzantium >= 10
-
-    FactionStanding factions { byzantium } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_moors_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_moors = 1
-
-    FactionStanding factions { moors } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_moors_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_moors = 2
-
-    FactionStanding factions { moors } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_moors_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_moors = 3
-
-    FactionStanding factions { moors } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_moors_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_moors = 4
-
-    FactionStanding factions { moors } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_moors_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_moors = 5
-
-    FactionStanding factions { moors } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_moors_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_moors = 6
-
-    FactionStanding factions { moors } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_moors_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_moors = 7
-
-    FactionStanding factions { moors } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_moors_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_moors = 8
-
-    FactionStanding factions { moors } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_moors_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_moors = 9
-
-    FactionStanding factions { moors } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_moors_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_moors >= 10
-
-    FactionStanding factions { moors } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_russia_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_russia = 1
-
-    FactionStanding factions { russia } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_russia_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_russia = 2
-
-    FactionStanding factions { russia } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_russia_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_russia = 3
-
-    FactionStanding factions { russia } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_russia_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_russia = 4
-
-    FactionStanding factions { russia } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_russia_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_russia = 5
-
-    FactionStanding factions { russia } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_russia_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_russia = 6
-
-    FactionStanding factions { russia } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_russia_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_russia = 7
-
-    FactionStanding factions { russia } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_russia_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_russia = 8
-
-    FactionStanding factions { russia } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_russia_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_russia = 9
-
-    FactionStanding factions { russia } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_russia_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_russia >= 10
-
-    FactionStanding factions { russia } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_spain_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_spain = 1
-
-    FactionStanding factions { spain } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_spain_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_spain = 2
-
-    FactionStanding factions { spain } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_spain_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_spain = 3
-
-    FactionStanding factions { spain } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_spain_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_spain = 4
-
-    FactionStanding factions { spain } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_spain_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_spain = 5
-
-    FactionStanding factions { spain } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_spain_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_spain = 6
-
-    FactionStanding factions { spain } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_spain_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_spain = 7
-
-    FactionStanding factions { spain } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_spain_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_spain = 8
-
-    FactionStanding factions { spain } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_spain_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_spain = 9
-
-    FactionStanding factions { spain } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_spain_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_spain >= 10
-
-    FactionStanding factions { spain } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_hungary_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hungary = 1
-
-    FactionStanding factions { hungary } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_hungary_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hungary = 2
-
-    FactionStanding factions { hungary } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_hungary_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hungary = 3
-
-    FactionStanding factions { hungary } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_hungary_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hungary = 4
-
-    FactionStanding factions { hungary } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_hungary_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hungary = 5
-
-    FactionStanding factions { hungary } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_hungary_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hungary = 6
-
-    FactionStanding factions { hungary } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_hungary_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hungary = 7
-
-    FactionStanding factions { hungary } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_hungary_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hungary = 8
-
-    FactionStanding factions { hungary } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_hungary_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hungary = 9
-
-    FactionStanding factions { hungary } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_hungary_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_hungary >= 10
-
-    FactionStanding factions { hungary } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_aragon_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_aragon = 1
-
-    FactionStanding factions { aragon } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_aragon_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_aragon = 2
-
-    FactionStanding factions { aragon } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_aragon_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_aragon = 3
-
-    FactionStanding factions { aragon } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_aragon_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_aragon = 4
-
-    FactionStanding factions { aragon } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_aragon_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_aragon = 5
-
-    FactionStanding factions { aragon } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_aragon_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_aragon = 6
-
-    FactionStanding factions { aragon } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_aragon_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_aragon = 7
-
-    FactionStanding factions { aragon } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_aragon_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_aragon = 8
-
-    FactionStanding factions { aragon } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_aragon_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_aragon = 9
-
-    FactionStanding factions { aragon } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_aragon_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_aragon >= 10
-
-    FactionStanding factions { aragon } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_lithuania_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_lithuania = 1
-
-    FactionStanding factions { lithuania } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_lithuania_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_lithuania = 2
-
-    FactionStanding factions { lithuania } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_lithuania_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_lithuania = 3
-
-    FactionStanding factions { lithuania } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_lithuania_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_lithuania = 4
-
-    FactionStanding factions { lithuania } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_lithuania_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_lithuania = 5
-
-    FactionStanding factions { lithuania } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_lithuania_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_lithuania = 6
-
-    FactionStanding factions { lithuania } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_lithuania_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_lithuania = 7
-
-    FactionStanding factions { lithuania } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_lithuania_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_lithuania = 8
-
-    FactionStanding factions { lithuania } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_lithuania_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_lithuania = 9
-
-    FactionStanding factions { lithuania } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_lithuania_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_lithuania >= 10
-
-    FactionStanding factions { lithuania } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_kievan_rus_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_kievan_rus = 1
-
-    FactionStanding factions { kievan_rus } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_kievan_rus_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_kievan_rus = 2
-
-    FactionStanding factions { kievan_rus } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_kievan_rus_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_kievan_rus = 3
-
-    FactionStanding factions { kievan_rus } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_kievan_rus_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_kievan_rus = 4
-
-    FactionStanding factions { kievan_rus } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_kievan_rus_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_kievan_rus = 5
-
-    FactionStanding factions { kievan_rus } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_kievan_rus_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_kievan_rus = 6
-
-    FactionStanding factions { kievan_rus } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_kievan_rus_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_kievan_rus = 7
-
-    FactionStanding factions { kievan_rus } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_kievan_rus_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_kievan_rus = 8
-
-    FactionStanding factions { kievan_rus } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_kievan_rus_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_kievan_rus = 9
-
-    FactionStanding factions { kievan_rus } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_kievan_rus_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_kievan_rus >= 10
-
-    FactionStanding factions { kievan_rus } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_serbia_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_serbia = 1
-
-    FactionStanding factions { serbia } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_serbia_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_serbia = 2
-
-    FactionStanding factions { serbia } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_serbia_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_serbia = 3
-
-    FactionStanding factions { serbia } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_serbia_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_serbia = 4
-
-    FactionStanding factions { serbia } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_serbia_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_serbia = 5
-
-    FactionStanding factions { serbia } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_serbia_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_serbia = 6
-
-    FactionStanding factions { serbia } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_serbia_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_serbia = 7
-
-    FactionStanding factions { serbia } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_serbia_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_serbia = 8
-
-    FactionStanding factions { serbia } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_serbia_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_serbia = 9
-
-    FactionStanding factions { serbia } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_serbia_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_serbia >= 10
-
-    FactionStanding factions { serbia } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_georgia_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_georgia = 1
-
-    FactionStanding factions { georgia } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_georgia_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_georgia = 2
-
-    FactionStanding factions { georgia } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_georgia_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_georgia = 3
-
-    FactionStanding factions { georgia } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_georgia_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_georgia = 4
-
-    FactionStanding factions { georgia } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_georgia_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_georgia = 5
-
-    FactionStanding factions { georgia } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_georgia_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_georgia = 6
-
-    FactionStanding factions { georgia } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_georgia_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_georgia = 7
-
-    FactionStanding factions { georgia } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_georgia_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_georgia = 8
-
-    FactionStanding factions { georgia } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_georgia_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_georgia = 9
-
-    FactionStanding factions { georgia } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_georgia_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_georgia >= 10
-
-    FactionStanding factions { georgia } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_norway_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_norway = 1
-
-    FactionStanding factions { norway } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_norway_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_norway = 2
-
-    FactionStanding factions { norway } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_norway_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_norway = 3
-
-    FactionStanding factions { norway } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_norway_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_norway = 4
-
-    FactionStanding factions { norway } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_norway_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_norway = 5
-
-    FactionStanding factions { norway } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_norway_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_norway = 6
-
-    FactionStanding factions { norway } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_norway_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_norway = 7
-
-    FactionStanding factions { norway } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_norway_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_norway = 8
-
-    FactionStanding factions { norway } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_norway_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_norway = 9
-
-    FactionStanding factions { norway } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_norway_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_norway >= 10
-
-    FactionStanding factions { norway } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_jerusalem_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_jerusalem = 1
-
-    FactionStanding factions { jerusalem } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_jerusalem_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_jerusalem = 2
-
-    FactionStanding factions { jerusalem } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_jerusalem_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_jerusalem = 3
-
-    FactionStanding factions { jerusalem } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_jerusalem_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_jerusalem = 4
-
-    FactionStanding factions { jerusalem } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_jerusalem_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_jerusalem = 5
-
-    FactionStanding factions { jerusalem } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_jerusalem_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_jerusalem = 6
-
-    FactionStanding factions { jerusalem } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_jerusalem_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_jerusalem = 7
-
-    FactionStanding factions { jerusalem } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_jerusalem_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_jerusalem = 8
-
-    FactionStanding factions { jerusalem } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_jerusalem_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_jerusalem = 9
-
-    FactionStanding factions { jerusalem } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_jerusalem_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_jerusalem >= 10
-
-    FactionStanding factions { jerusalem } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_zengid_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_zengid = 1
-
-    FactionStanding factions { zengid } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_zengid_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_zengid = 2
-
-    FactionStanding factions { zengid } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_zengid_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_zengid = 3
-
-    FactionStanding factions { zengid } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_zengid_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_zengid = 4
-
-    FactionStanding factions { zengid } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_zengid_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_zengid = 5
-
-    FactionStanding factions { zengid } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_zengid_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_zengid = 6
-
-    FactionStanding factions { zengid } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_zengid_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_zengid = 7
-
-    FactionStanding factions { zengid } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_zengid_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_zengid = 8
-
-    FactionStanding factions { zengid } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_zengid_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_zengid = 9
-
-    FactionStanding factions { zengid } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_zengid_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_zengid >= 10
-
-    FactionStanding factions { zengid } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_rum_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_rum = 1
-
-    FactionStanding factions { rum } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_rum_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_rum = 2
-
-    FactionStanding factions { rum } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_rum_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_rum = 3
-
-    FactionStanding factions { rum } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_rum_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_rum = 4
-
-    FactionStanding factions { rum } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_rum_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_rum = 5
-
-    FactionStanding factions { rum } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_rum_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_rum = 6
-
-    FactionStanding factions { rum } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_rum_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_rum = 7
-
-    FactionStanding factions { rum } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_rum_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_rum = 8
-
-    FactionStanding factions { rum } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_rum_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_rum = 9
-
-    FactionStanding factions { rum } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_rum_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_rum >= 10
-
-    FactionStanding factions { rum } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_pisa_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_pisa = 1
-
-    FactionStanding factions { pisa } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_pisa_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_pisa = 2
-
-    FactionStanding factions { pisa } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_pisa_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_pisa = 3
-
-    FactionStanding factions { pisa } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_pisa_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_pisa = 4
-
-    FactionStanding factions { pisa } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_pisa_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_pisa = 5
-
-    FactionStanding factions { pisa } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_pisa_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_pisa = 6
-
-    FactionStanding factions { pisa } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_pisa_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_pisa = 7
-
-    FactionStanding factions { pisa } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_pisa_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_pisa = 8
-
-    FactionStanding factions { pisa } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_pisa_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_pisa = 9
-
-    FactionStanding factions { pisa } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_pisa_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_pisa >= 10
-
-    FactionStanding factions { pisa } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_papal_states_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_papal_states = 1
-
-    FactionStanding factions { papal_states } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_papal_states_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_papal_states = 2
-
-    FactionStanding factions { papal_states } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_papal_states_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_papal_states = 3
-
-    FactionStanding factions { papal_states } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_papal_states_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_papal_states = 4
-
-    FactionStanding factions { papal_states } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_papal_states_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_papal_states = 5
-
-    FactionStanding factions { papal_states } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_papal_states_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_papal_states = 6
-
-    FactionStanding factions { papal_states } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_papal_states_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_papal_states = 7
-
-    FactionStanding factions { papal_states } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_papal_states_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_papal_states = 8
-
-    FactionStanding factions { papal_states } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_papal_states_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_papal_states = 9
-
-    FactionStanding factions { papal_states } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_papal_states_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_papal_states >= 10
-
-    FactionStanding factions { papal_states } 0.01
-
-
-;--------------------------------------------------
-Trigger fs_improve_relations_mongols_1
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_mongols = 1
-
-    FactionStanding factions { mongols } 0.001
-;--------------------------------------------------
-Trigger fs_improve_relations_mongols_2
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_mongols = 2
-
-    FactionStanding factions { mongols } 0.002
-;--------------------------------------------------
-Trigger fs_improve_relations_mongols_3
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_mongols = 3
-
-    FactionStanding factions { mongols } 0.003
-;--------------------------------------------------
-Trigger fs_improve_relations_mongols_4
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_mongols = 4
-
-    FactionStanding factions { mongols } 0.004
-;--------------------------------------------------
-Trigger fs_improve_relations_mongols_5
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_mongols = 5
-
-    FactionStanding factions { mongols } 0.005
-;--------------------------------------------------
-Trigger fs_improve_relations_mongols_6
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_mongols = 6
-
-    FactionStanding factions { mongols } 0.006
-;--------------------------------------------------
-Trigger fs_improve_relations_mongols_7
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_mongols = 7
-
-    FactionStanding factions { mongols } 0.007
-;--------------------------------------------------
-Trigger fs_improve_relations_mongols_8
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_mongols = 8
-
-    FactionStanding factions { mongols } 0.008
-;--------------------------------------------------
-Trigger fs_improve_relations_mongols_9
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_mongols = 9
-
-    FactionStanding factions { mongols } 0.009
-;--------------------------------------------------
-Trigger fs_improve_relations_mongols_10
-	WhenToTest FactionTurnStart
-
-    Condition FactionIsLocal
-    	and I_EventCounter improve_relations_mongols >= 10
-
-    FactionStanding factions { mongols } 0.01
-
+;--------------------------------------------------------------------------------------------------
+;--- Cooperates with War Weariness Script. When event_counter faction_war_wearied is > 0 
+;--- CS determined that a faction is waging war too much and will quickly 
+;--- improve relations which together with descr_campaign_ai enries will allow peace.
+;--- The problem was that even though AI decided to have peace, but very bad realtions 
+;--- made impossible any negotiations in diplomacy screen- ai was rejecting everything,
+;--- which sometimes is good, sometimes not (too stubborn leading to its demise).
+;--- It has to be about TargetFaction, relations work both ways, and this way only is important here
+;--- the trigger fires only once a turn for the enemy who is the player-local,
+;--- but it also affects other enemies, impossible (?) to make it only affecting the player.
+;---------------------------------------------------------------------------------------------------
+
+Trigger 088_WarWearied_venice 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType venice
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter venice_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_sicily 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType sicily
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter sicily_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_abbasid 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType abbasid
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter abbasid_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_denmark 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType denmark
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter denmark_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_egypt 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType egypt
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter egypt_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_scotland 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType scotland
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter scotland_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_cumans 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType cumans
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter cumans_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_turks 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType turks
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter turks_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_france 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType france
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter france_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_hre 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType hre
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter hre_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_england 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType england
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter england_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_portugal 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType portugal
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter portugal_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_poland 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType poland
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter poland_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_byzantium 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType byzantium
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter byzantium_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_moors 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType moors
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter moors_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_russia 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType russia
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter russia_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_spain 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType spain
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter spain_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_hungary 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType hungary
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter hungary_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_aragon 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType aragon
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter aragon_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_lithuania 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType lithuania
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter lithuania_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_kievan_rus 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType kievan_rus
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter kievan_rus_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_serbia 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType serbia
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter serbia_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_georgia 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType georgia
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter georgia_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_norway 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType norway
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter norway_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_jerusalem 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType jerusalem
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter jerusalem_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_zengid 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType zengid
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter zengid_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_rum 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType rum
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter rum_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_pisa 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType pisa
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter pisa_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+
+Trigger 088_WarWearied_papal_states 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType papal_states
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter papal_states_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
+
+Trigger 088_WarWearied_papal_mongols 
+	WhenToTest UpdateAttitude
+	Condition TargetFactionType mongols
+		and DiplomaticStanceFactions = AtWar
+		and FactionIsLocal
+		and I_EventCounter mongols_war_wearied > 0
+	FactionStanding enemies normalise 0.55 4
 
