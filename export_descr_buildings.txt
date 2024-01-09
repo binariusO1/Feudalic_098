@@ -7987,7 +7987,7 @@ building justice_city
         law_bonus bonus 8 requires not event_counter FL_policy_shady_connections 1 
         law_bonus bonus 10 requires event_counter FL_policy_shady_connections 1 
         happiness_bonus bonus -2
-        population_growth_bonus bonus -4 
+        population_growth_bonus bonus -2 
 		trade_base_income_bonus bonus -2 
         religion_level bonus -1
 ;---------------------------------------------------------------------------------------------------------------------------------
@@ -8022,7 +8022,7 @@ building justice_castle
         law_bonus bonus 8 requires not event_counter FL_policy_shady_connections 1 
         law_bonus bonus 10 requires event_counter FL_policy_shady_connections 1 
         happiness_bonus bonus -2
-        population_growth_bonus bonus -4
+        population_growth_bonus bonus -2
 		trade_base_income_bonus bonus -2 
         religion_level bonus -1
 ;---------------------------------------------------------------------------------------------------------------------------------
