@@ -730,7 +730,7 @@ type			diplomat
 
 actions			moving_normal, diplomacy, bribe
 wage_base		50
-starting_action_points	200
+starting_action_points	220
 
 faction			lithuania
 dictionary		2
@@ -995,7 +995,7 @@ type			princess
 
 actions			moving_normal, diplomacy, bribe, marry
 wage_base		150
-starting_action_points	120
+starting_action_points	150
 
 faction			lithuania
 dictionary		2
@@ -1127,7 +1127,7 @@ type			merchant
 
 actions			moving_normal, acquire
 wage_base		0
-starting_action_points	160
+starting_action_points	180
 
 faction			lithuania
 dictionary		2
