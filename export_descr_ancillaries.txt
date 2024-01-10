@@ -704,7 +704,9 @@ Ancillary witch_hunter
  Description witch_hunter_desc 
  EffectsDescription witch_hunter_effects_desc 
  Effect Piety 1 
+ Effect Violence 1 
  Effect Unorthodoxy -1 
+
 ;------------------------------------------ 
 Ancillary yappy_little_dog 
  Type Pet 
