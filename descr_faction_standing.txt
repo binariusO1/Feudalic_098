@@ -30,6 +30,9 @@
 ; ....
 ;##########         HOTSPOTS of CONFLICTS
 ;##########         SPHERES OF INFLUENCE: taking certain settlements as certain factions hurts reputation and relations less
+; ....
+;##########         FEUDALIC
+;---IMPROVE RELATIONS
 
 min_faction_standing	-1.0
 max_faction_standing	1.0
@@ -7029,3 +7032,2464 @@ Trigger 088_WarWearied_papal_mongols
 		and I_EventCounter mongols_war_wearied > 0
 	FactionStanding enemies normalise 0.55 4
 
+
+;##########         FEUDALIC
+;---IMPROVE RELATIONS
+;--------------------------------------------------
+Trigger fs_improve_relations_venice_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_venice = 1
+
+    FactionStanding factions { venice } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_venice_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_venice = 2
+
+    FactionStanding factions { venice } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_venice_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_venice = 3
+
+    FactionStanding factions { venice } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_venice_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_venice= 4
+
+    FactionStanding factions { venice } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_venice_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_venice = 5
+
+    FactionStanding factions { venice } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_venice_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_venice = 6
+
+    FactionStanding factions { venice } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_venice_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_venice = 7
+
+    FactionStanding factions { venice } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_venice_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_venice = 8
+
+    FactionStanding factions { venice } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_venice_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_venice = 9
+
+    FactionStanding factions { venice } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_venice_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_venice >= 10
+
+    FactionStanding factions { venice } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_sicily_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_sicily = 1
+
+    FactionStanding factions { sicily } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_sicily_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_sicily = 2
+
+    FactionStanding factions { sicily } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_sicily_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_sicily = 3
+
+    FactionStanding factions { sicily } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_sicily_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_sicily = 4
+
+    FactionStanding factions { sicily } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_sicily_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_sicily = 5
+
+    FactionStanding factions { sicily } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_sicily_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_sicily = 6
+
+    FactionStanding factions { sicily } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_sicily_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_sicily = 7
+
+    FactionStanding factions { sicily } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_sicily_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_sicily = 8
+
+    FactionStanding factions { sicily } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_sicily_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_sicily = 9
+
+    FactionStanding factions { sicily } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_sicily_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_sicily >= 10
+
+    FactionStanding factions { sicily } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_abbasid_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_abbasid = 1
+
+    FactionStanding factions { abbasid } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_abbasid_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_abbasid = 2
+
+    FactionStanding factions { abbasid } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_abbasid_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_abbasid = 3
+
+    FactionStanding factions { abbasid } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_abbasid_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_abbasid = 4
+
+    FactionStanding factions { abbasid } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_abbasid_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_abbasid = 5
+
+    FactionStanding factions { abbasid } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_abbasid_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_abbasid = 6
+
+    FactionStanding factions { abbasid } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_abbasid_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_abbasid = 7
+
+    FactionStanding factions { abbasid } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_abbasid_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_abbasid = 8
+
+    FactionStanding factions { abbasid } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_abbasid_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_abbasid = 9
+
+    FactionStanding factions { abbasid } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_abbasid_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_abbasid >= 10
+
+    FactionStanding factions { abbasid } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_denmark_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_denmark = 1
+
+    FactionStanding factions { denmark } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_denmark_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_denmark = 2
+
+    FactionStanding factions { denmark } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_denmark_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_denmark = 3
+
+    FactionStanding factions { denmark } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_denmark_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_denmark = 4
+
+    FactionStanding factions { denmark } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_denmark_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_denmark = 5
+
+    FactionStanding factions { denmark } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_denmark_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_denmark = 6
+
+    FactionStanding factions { denmark } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_denmark_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_denmark = 7
+
+    FactionStanding factions { denmark } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_denmark_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_denmark = 8
+
+    FactionStanding factions { denmark } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_denmark_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_denmark = 9
+
+    FactionStanding factions { denmark } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_denmark_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_denmark >= 10
+
+    FactionStanding factions { denmark } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_egypt_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_egypt = 1
+
+    FactionStanding factions { egypt } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_egypt_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_egypt = 2
+
+    FactionStanding factions { egypt } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_egypt_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_egypt = 3
+
+    FactionStanding factions { egypt } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_egypt_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_egypt = 4
+
+    FactionStanding factions { egypt } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_egypt_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_egypt = 5
+
+    FactionStanding factions { egypt } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_egypt_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_egypt = 6
+
+    FactionStanding factions { egypt } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_egypt_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_egypt = 7
+
+    FactionStanding factions { egypt } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_egypt_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_egypt = 8
+
+    FactionStanding factions { egypt } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_egypt_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_egypt = 9
+
+    FactionStanding factions { egypt } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_egypt_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_egypt >= 10
+
+    FactionStanding factions { egypt } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_scotland_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_scotland = 1
+
+    FactionStanding factions { scotland } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_scotland_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_scotland = 2
+
+    FactionStanding factions { scotland } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_scotland_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_scotland = 3
+
+    FactionStanding factions { scotland } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_scotland_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_scotland = 4
+
+    FactionStanding factions { scotland } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_scotland_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_scotland = 5
+
+    FactionStanding factions { scotland } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_scotland_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_scotland = 6
+
+    FactionStanding factions { scotland } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_scotland_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_scotland = 7
+
+    FactionStanding factions { scotland } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_scotland_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_scotland = 8
+
+    FactionStanding factions { scotland } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_scotland_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_scotland = 9
+
+    FactionStanding factions { scotland } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_scotland_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_scotland >= 10
+
+    FactionStanding factions { scotland } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_cumans_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_cumans = 1
+
+    FactionStanding factions { cumans } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_cumans_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_cumans = 2
+
+    FactionStanding factions { cumans } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_cumans_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_cumans = 3
+
+    FactionStanding factions { cumans } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_cumans_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_cumans = 4
+
+    FactionStanding factions { cumans } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_cumans_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_cumans = 5
+
+    FactionStanding factions { cumans } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_cumans_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_cumans = 6
+
+    FactionStanding factions { cumans } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_cumans_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_cumans = 7
+
+    FactionStanding factions { cumans } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_cumans_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_cumans = 8
+
+    FactionStanding factions { cumans } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_cumans_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_cumans = 9
+
+    FactionStanding factions { cumans } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_cumans_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_cumans >= 10
+
+    FactionStanding factions { cumans } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_turks_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_turks = 1
+
+    FactionStanding factions { turks } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_turks_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_turks = 2
+
+    FactionStanding factions { turks } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_turks_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_turks = 3
+
+    FactionStanding factions { turks } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_turks_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_turks = 4
+
+    FactionStanding factions { turks } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_turks_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_turks = 5
+
+    FactionStanding factions { turks } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_turks_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_turks = 6
+
+    FactionStanding factions { turks } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_turks_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_turks = 7
+
+    FactionStanding factions { turks } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_turks_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_turks = 8
+
+    FactionStanding factions { turks } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_turks_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_turks = 9
+
+    FactionStanding factions { turks } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_turks_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_turks >= 10
+
+    FactionStanding factions { turks } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_france_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_france = 1
+
+    FactionStanding factions { france } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_france_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_france = 2
+
+    FactionStanding factions { france } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_france_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_france = 3
+
+    FactionStanding factions { france } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_france_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_france = 4
+
+    FactionStanding factions { france } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_france_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_france = 5
+
+    FactionStanding factions { france } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_france_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_france = 6
+
+    FactionStanding factions { france } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_france_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_france = 7
+
+    FactionStanding factions { france } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_france_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_france = 8
+
+    FactionStanding factions { france } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_france_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_france = 9
+
+    FactionStanding factions { france } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_france_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_france >= 10
+
+    FactionStanding factions { france } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_hre_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hre = 1
+
+    FactionStanding factions { hre } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_hre_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hre = 2
+
+    FactionStanding factions { hre } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_hre_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hre = 3
+
+    FactionStanding factions { hre } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_hre_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hre = 4
+
+    FactionStanding factions { hre } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_hre_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hre = 5
+
+    FactionStanding factions { hre } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_hre_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hre = 6
+
+    FactionStanding factions { hre } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_hre_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hre = 7
+
+    FactionStanding factions { hre } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_hre_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hre = 8
+
+    FactionStanding factions { hre } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_hre_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hre = 9
+
+    FactionStanding factions { hre } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_hre_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hre >= 10
+
+    FactionStanding factions { hre } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_england_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_england = 1
+
+    FactionStanding factions { england } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_england_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_england = 2
+
+    FactionStanding factions { england } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_england_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_england = 3
+
+    FactionStanding factions { england } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_england_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_england = 4
+
+    FactionStanding factions { england } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_england_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_england = 5
+
+    FactionStanding factions { england } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_england_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_england = 6
+
+    FactionStanding factions { england } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_england_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_england = 7
+
+    FactionStanding factions { england } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_england_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_england = 8
+
+    FactionStanding factions { england } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_england_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_england = 9
+
+    FactionStanding factions { england } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_england_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_england >= 10
+
+    FactionStanding factions { england } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_portugal_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_portugal = 1
+
+    FactionStanding factions { portugal } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_portugal_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_portugal = 2
+
+    FactionStanding factions { portugal } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_portugal_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_portugal = 3
+
+    FactionStanding factions { portugal } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_portugal_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_portugal = 4
+
+    FactionStanding factions { portugal } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_portugal_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_portugal = 5
+
+    FactionStanding factions { portugal } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_portugal_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_portugal = 6
+
+    FactionStanding factions { portugal } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_portugal_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_portugal = 7
+
+    FactionStanding factions { portugal } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_portugal_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_portugal = 8
+
+    FactionStanding factions { portugal } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_portugal_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_portugal = 9
+
+    FactionStanding factions { portugal } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_portugal_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_portugal >= 10
+
+    FactionStanding factions { portugal } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_poland_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_poland = 1
+
+    FactionStanding factions { poland } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_poland_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_poland = 2
+
+    FactionStanding factions { poland } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_poland_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_poland = 3
+
+    FactionStanding factions { poland } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_poland_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_poland = 4
+
+    FactionStanding factions { poland } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_poland_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_poland = 5
+
+    FactionStanding factions { poland } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_poland_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_poland = 6
+
+    FactionStanding factions { poland } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_poland_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_poland = 7
+
+    FactionStanding factions { poland } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_poland_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_poland = 8
+
+    FactionStanding factions { poland } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_poland_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_poland = 9
+
+    FactionStanding factions { poland } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_poland_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_poland >= 10
+
+    FactionStanding factions { poland } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_byzantium_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_byzantium = 1
+
+    FactionStanding factions { byzantium } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_byzantium_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_byzantium = 2
+
+    FactionStanding factions { byzantium } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_byzantium_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_byzantium = 3
+
+    FactionStanding factions { byzantium } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_byzantium_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_byzantium = 4
+
+    FactionStanding factions { byzantium } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_byzantium_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_byzantium = 5
+
+    FactionStanding factions { byzantium } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_byzantium_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_byzantium = 6
+
+    FactionStanding factions { byzantium } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_byzantium_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_byzantium = 7
+
+    FactionStanding factions { byzantium } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_byzantium_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_byzantium = 8
+
+    FactionStanding factions { byzantium } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_byzantium_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_byzantium = 9
+
+    FactionStanding factions { byzantium } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_byzantium_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_byzantium >= 10
+
+    FactionStanding factions { byzantium } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_moors_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_moors = 1
+
+    FactionStanding factions { moors } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_moors_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_moors = 2
+
+    FactionStanding factions { moors } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_moors_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_moors = 3
+
+    FactionStanding factions { moors } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_moors_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_moors = 4
+
+    FactionStanding factions { moors } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_moors_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_moors = 5
+
+    FactionStanding factions { moors } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_moors_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_moors = 6
+
+    FactionStanding factions { moors } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_moors_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_moors = 7
+
+    FactionStanding factions { moors } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_moors_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_moors = 8
+
+    FactionStanding factions { moors } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_moors_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_moors = 9
+
+    FactionStanding factions { moors } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_moors_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_moors >= 10
+
+    FactionStanding factions { moors } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_russia_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_russia = 1
+
+    FactionStanding factions { russia } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_russia_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_russia = 2
+
+    FactionStanding factions { russia } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_russia_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_russia = 3
+
+    FactionStanding factions { russia } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_russia_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_russia = 4
+
+    FactionStanding factions { russia } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_russia_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_russia = 5
+
+    FactionStanding factions { russia } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_russia_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_russia = 6
+
+    FactionStanding factions { russia } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_russia_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_russia = 7
+
+    FactionStanding factions { russia } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_russia_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_russia = 8
+
+    FactionStanding factions { russia } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_russia_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_russia = 9
+
+    FactionStanding factions { russia } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_russia_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_russia >= 10
+
+    FactionStanding factions { russia } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_spain_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_spain = 1
+
+    FactionStanding factions { spain } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_spain_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_spain = 2
+
+    FactionStanding factions { spain } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_spain_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_spain = 3
+
+    FactionStanding factions { spain } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_spain_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_spain = 4
+
+    FactionStanding factions { spain } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_spain_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_spain = 5
+
+    FactionStanding factions { spain } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_spain_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_spain = 6
+
+    FactionStanding factions { spain } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_spain_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_spain = 7
+
+    FactionStanding factions { spain } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_spain_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_spain = 8
+
+    FactionStanding factions { spain } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_spain_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_spain = 9
+
+    FactionStanding factions { spain } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_spain_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_spain >= 10
+
+    FactionStanding factions { spain } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_hungary_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hungary = 1
+
+    FactionStanding factions { hungary } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_hungary_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hungary = 2
+
+    FactionStanding factions { hungary } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_hungary_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hungary = 3
+
+    FactionStanding factions { hungary } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_hungary_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hungary = 4
+
+    FactionStanding factions { hungary } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_hungary_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hungary = 5
+
+    FactionStanding factions { hungary } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_hungary_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hungary = 6
+
+    FactionStanding factions { hungary } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_hungary_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hungary = 7
+
+    FactionStanding factions { hungary } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_hungary_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hungary = 8
+
+    FactionStanding factions { hungary } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_hungary_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hungary = 9
+
+    FactionStanding factions { hungary } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_hungary_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_hungary >= 10
+
+    FactionStanding factions { hungary } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_aragon_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_aragon = 1
+
+    FactionStanding factions { aragon } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_aragon_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_aragon = 2
+
+    FactionStanding factions { aragon } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_aragon_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_aragon = 3
+
+    FactionStanding factions { aragon } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_aragon_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_aragon = 4
+
+    FactionStanding factions { aragon } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_aragon_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_aragon = 5
+
+    FactionStanding factions { aragon } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_aragon_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_aragon = 6
+
+    FactionStanding factions { aragon } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_aragon_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_aragon = 7
+
+    FactionStanding factions { aragon } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_aragon_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_aragon = 8
+
+    FactionStanding factions { aragon } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_aragon_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_aragon = 9
+
+    FactionStanding factions { aragon } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_aragon_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_aragon >= 10
+
+    FactionStanding factions { aragon } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_lithuania_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_lithuania = 1
+
+    FactionStanding factions { lithuania } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_lithuania_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_lithuania = 2
+
+    FactionStanding factions { lithuania } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_lithuania_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_lithuania = 3
+
+    FactionStanding factions { lithuania } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_lithuania_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_lithuania = 4
+
+    FactionStanding factions { lithuania } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_lithuania_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_lithuania = 5
+
+    FactionStanding factions { lithuania } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_lithuania_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_lithuania = 6
+
+    FactionStanding factions { lithuania } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_lithuania_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_lithuania = 7
+
+    FactionStanding factions { lithuania } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_lithuania_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_lithuania = 8
+
+    FactionStanding factions { lithuania } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_lithuania_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_lithuania = 9
+
+    FactionStanding factions { lithuania } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_lithuania_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_lithuania >= 10
+
+    FactionStanding factions { lithuania } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_kievan_rus_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_kievan_rus = 1
+
+    FactionStanding factions { kievan_rus } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_kievan_rus_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_kievan_rus = 2
+
+    FactionStanding factions { kievan_rus } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_kievan_rus_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_kievan_rus = 3
+
+    FactionStanding factions { kievan_rus } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_kievan_rus_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_kievan_rus = 4
+
+    FactionStanding factions { kievan_rus } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_kievan_rus_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_kievan_rus = 5
+
+    FactionStanding factions { kievan_rus } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_kievan_rus_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_kievan_rus = 6
+
+    FactionStanding factions { kievan_rus } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_kievan_rus_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_kievan_rus = 7
+
+    FactionStanding factions { kievan_rus } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_kievan_rus_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_kievan_rus = 8
+
+    FactionStanding factions { kievan_rus } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_kievan_rus_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_kievan_rus = 9
+
+    FactionStanding factions { kievan_rus } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_kievan_rus_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_kievan_rus >= 10
+
+    FactionStanding factions { kievan_rus } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_serbia_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_serbia = 1
+
+    FactionStanding factions { serbia } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_serbia_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_serbia = 2
+
+    FactionStanding factions { serbia } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_serbia_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_serbia = 3
+
+    FactionStanding factions { serbia } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_serbia_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_serbia = 4
+
+    FactionStanding factions { serbia } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_serbia_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_serbia = 5
+
+    FactionStanding factions { serbia } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_serbia_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_serbia = 6
+
+    FactionStanding factions { serbia } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_serbia_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_serbia = 7
+
+    FactionStanding factions { serbia } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_serbia_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_serbia = 8
+
+    FactionStanding factions { serbia } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_serbia_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_serbia = 9
+
+    FactionStanding factions { serbia } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_serbia_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_serbia >= 10
+
+    FactionStanding factions { serbia } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_georgia_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_georgia = 1
+
+    FactionStanding factions { georgia } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_georgia_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_georgia = 2
+
+    FactionStanding factions { georgia } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_georgia_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_georgia = 3
+
+    FactionStanding factions { georgia } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_georgia_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_georgia = 4
+
+    FactionStanding factions { georgia } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_georgia_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_georgia = 5
+
+    FactionStanding factions { georgia } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_georgia_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_georgia = 6
+
+    FactionStanding factions { georgia } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_georgia_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_georgia = 7
+
+    FactionStanding factions { georgia } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_georgia_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_georgia = 8
+
+    FactionStanding factions { georgia } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_georgia_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_georgia = 9
+
+    FactionStanding factions { georgia } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_georgia_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_georgia >= 10
+
+    FactionStanding factions { georgia } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_norway_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_norway = 1
+
+    FactionStanding factions { norway } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_norway_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_norway = 2
+
+    FactionStanding factions { norway } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_norway_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_norway = 3
+
+    FactionStanding factions { norway } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_norway_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_norway = 4
+
+    FactionStanding factions { norway } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_norway_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_norway = 5
+
+    FactionStanding factions { norway } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_norway_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_norway = 6
+
+    FactionStanding factions { norway } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_norway_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_norway = 7
+
+    FactionStanding factions { norway } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_norway_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_norway = 8
+
+    FactionStanding factions { norway } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_norway_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_norway = 9
+
+    FactionStanding factions { norway } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_norway_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_norway >= 10
+
+    FactionStanding factions { norway } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_jerusalem_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_jerusalem = 1
+
+    FactionStanding factions { jerusalem } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_jerusalem_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_jerusalem = 2
+
+    FactionStanding factions { jerusalem } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_jerusalem_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_jerusalem = 3
+
+    FactionStanding factions { jerusalem } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_jerusalem_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_jerusalem = 4
+
+    FactionStanding factions { jerusalem } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_jerusalem_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_jerusalem = 5
+
+    FactionStanding factions { jerusalem } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_jerusalem_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_jerusalem = 6
+
+    FactionStanding factions { jerusalem } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_jerusalem_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_jerusalem = 7
+
+    FactionStanding factions { jerusalem } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_jerusalem_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_jerusalem = 8
+
+    FactionStanding factions { jerusalem } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_jerusalem_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_jerusalem = 9
+
+    FactionStanding factions { jerusalem } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_jerusalem_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_jerusalem >= 10
+
+    FactionStanding factions { jerusalem } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_zengid_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_zengid = 1
+
+    FactionStanding factions { zengid } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_zengid_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_zengid = 2
+
+    FactionStanding factions { zengid } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_zengid_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_zengid = 3
+
+    FactionStanding factions { zengid } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_zengid_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_zengid = 4
+
+    FactionStanding factions { zengid } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_zengid_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_zengid = 5
+
+    FactionStanding factions { zengid } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_zengid_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_zengid = 6
+
+    FactionStanding factions { zengid } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_zengid_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_zengid = 7
+
+    FactionStanding factions { zengid } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_zengid_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_zengid = 8
+
+    FactionStanding factions { zengid } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_zengid_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_zengid = 9
+
+    FactionStanding factions { zengid } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_zengid_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_zengid >= 10
+
+    FactionStanding factions { zengid } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_rum_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_rum = 1
+
+    FactionStanding factions { rum } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_rum_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_rum = 2
+
+    FactionStanding factions { rum } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_rum_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_rum = 3
+
+    FactionStanding factions { rum } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_rum_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_rum = 4
+
+    FactionStanding factions { rum } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_rum_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_rum = 5
+
+    FactionStanding factions { rum } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_rum_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_rum = 6
+
+    FactionStanding factions { rum } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_rum_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_rum = 7
+
+    FactionStanding factions { rum } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_rum_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_rum = 8
+
+    FactionStanding factions { rum } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_rum_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_rum = 9
+
+    FactionStanding factions { rum } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_rum_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_rum >= 10
+
+    FactionStanding factions { rum } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_pisa_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_pisa = 1
+
+    FactionStanding factions { pisa } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_pisa_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_pisa = 2
+
+    FactionStanding factions { pisa } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_pisa_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_pisa = 3
+
+    FactionStanding factions { pisa } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_pisa_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_pisa = 4
+
+    FactionStanding factions { pisa } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_pisa_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_pisa = 5
+
+    FactionStanding factions { pisa } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_pisa_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_pisa = 6
+
+    FactionStanding factions { pisa } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_pisa_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_pisa = 7
+
+    FactionStanding factions { pisa } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_pisa_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_pisa = 8
+
+    FactionStanding factions { pisa } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_pisa_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_pisa = 9
+
+    FactionStanding factions { pisa } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_pisa_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_pisa >= 10
+
+    FactionStanding factions { pisa } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_papal_states_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_papal_states = 1
+
+    FactionStanding factions { papal_states } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_papal_states_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_papal_states = 2
+
+    FactionStanding factions { papal_states } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_papal_states_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_papal_states = 3
+
+    FactionStanding factions { papal_states } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_papal_states_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_papal_states = 4
+
+    FactionStanding factions { papal_states } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_papal_states_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_papal_states = 5
+
+    FactionStanding factions { papal_states } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_papal_states_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_papal_states = 6
+
+    FactionStanding factions { papal_states } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_papal_states_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_papal_states = 7
+
+    FactionStanding factions { papal_states } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_papal_states_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_papal_states = 8
+
+    FactionStanding factions { papal_states } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_papal_states_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_papal_states = 9
+
+    FactionStanding factions { papal_states } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_papal_states_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_papal_states >= 10
+
+    FactionStanding factions { papal_states } 0.01
+
+
+;--------------------------------------------------
+Trigger fs_improve_relations_mongols_1
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_mongols = 1
+
+    FactionStanding factions { mongols } 0.001
+;--------------------------------------------------
+Trigger fs_improve_relations_mongols_2
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_mongols = 2
+
+    FactionStanding factions { mongols } 0.002
+;--------------------------------------------------
+Trigger fs_improve_relations_mongols_3
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_mongols = 3
+
+    FactionStanding factions { mongols } 0.003
+;--------------------------------------------------
+Trigger fs_improve_relations_mongols_4
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_mongols = 4
+
+    FactionStanding factions { mongols } 0.004
+;--------------------------------------------------
+Trigger fs_improve_relations_mongols_5
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_mongols = 5
+
+    FactionStanding factions { mongols } 0.005
+;--------------------------------------------------
+Trigger fs_improve_relations_mongols_6
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_mongols = 6
+
+    FactionStanding factions { mongols } 0.006
+;--------------------------------------------------
+Trigger fs_improve_relations_mongols_7
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_mongols = 7
+
+    FactionStanding factions { mongols } 0.007
+;--------------------------------------------------
+Trigger fs_improve_relations_mongols_8
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_mongols = 8
+
+    FactionStanding factions { mongols } 0.008
+;--------------------------------------------------
+Trigger fs_improve_relations_mongols_9
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_mongols = 9
+
+    FactionStanding factions { mongols } 0.009
+;--------------------------------------------------
+Trigger fs_improve_relations_mongols_10
+	WhenToTest FactionTurnStart
+
+    Condition FactionIsLocal
+    	and I_EventCounter improve_relations_mongols >= 10
+
+    FactionStanding factions { mongols } 0.01
